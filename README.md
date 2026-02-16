@@ -119,6 +119,10 @@ result = dprime_compare(
 print(f"Chi-square: {result.statistic:.2f}, p={result.p_value:.4f}")
 ```
 
+## Disclaimer
+
+> **Beta Release** — sensPy is currently in beta. While we strive for numerical accuracy and validate results against the original sensR package, this software is provided "as is", without warranty of any kind. Aigora assumes no liability for any decisions, outcomes, or consequences arising from the use of this software. Users are responsible for independently verifying results before relying on them in production, regulatory, or research contexts.
+
 ## License
 
 This project is licensed under the GNU General Public License version 2.0 or later. See [LICENSE](LICENSE) for details.
