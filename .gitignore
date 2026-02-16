@@ -26,3 +26,5 @@ htmlcov/
 
 # Virtual environments
 .venv/
+
+docs/sensometrics-2026-audit.md
