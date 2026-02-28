@@ -41,39 +41,49 @@ You are an autonomous development agent. You accept a plan, implement it fully, 
 
 ## Phase 2: Branch & PR Setup
 
+**You MUST complete ALL of these steps before starting any development work in Phase 3.**
+
 1. Create a feature branch from the current branch:
    ```bash
    git checkout -b feat/<descriptive-name-from-plan>
    ```
 
-2. Make an initial commit (can be empty or a small scaffold) and push:
+2. Create an initial empty commit and push the branch to the remote:
    ```bash
+   git commit --allow-empty -m "chore: initial commit for <descriptive-name>"
    git push -u origin HEAD
    ```
 
-3. Open a **draft PR** early so PR-dependent review checks can work:
+3. Open a **PR** immediately so PR-dependent review checks work from the start:
    ```bash
-   gh pr create --draft --title "<concise title from plan>" --body "<plan summary>"
+   gh pr create --title "<concise title from plan>" --body "<plan summary>"
    ```
 
-4. Capture the PR number:
+4. Capture the PR number — you will need it for review API calls later:
    ```bash
    gh pr view --json number -q .number
    ```
+
+**Checkpoint:** Before proceeding to Phase 3, confirm you have: a remote branch, a PR, and a PR number. If any of these are missing, fix it now.
 
 ## Phase 3: Development
 
 Implement the plan using your normal coding tools (Read, Edit, Write, Bash).
 
 - Work through each item in the plan systematically.
-- Commit and push after each meaningful chunk of work.
 - Use descriptive commit messages that reference what plan item is being addressed.
 - Run any available tests locally before pushing.
+- **IMPORTANT: After each meaningful chunk of work, commit AND push to the remote:**
+  ```bash
+  git add <specific-files>
+  git commit -m "feat: <description of changes>"
+  git push
+  ```
+  The review APIs check the latest commit on the remote branch — unpushed work is invisible to them.
 
-After all plan items are implemented, push all remaining changes:
+After all plan items are implemented, verify everything is pushed:
 ```bash
-git add <specific-files>
-git commit -m "feat: <description of changes>"
+git status
 git push
 ```
 
@@ -216,12 +226,7 @@ The review APIs analyze the full branch, not just your diff. This means they may
 
 ## Phase 5: Finalize & Notify
 
-1. Mark the PR as ready for review (remove draft status):
-   ```bash
-   gh pr ready
-   ```
-
-2. Send a Slack notification:
+1. Send a Slack notification:
    ```bash
    PR_URL=$(gh pr view --json url -q .url)
    curl -s -X POST "${APP_URL}/api/review/notify" \
@@ -230,7 +235,7 @@ The review APIs analyze the full branch, not just your diff. This means they may
      -d "{\"type\":\"ready_for_review\",\"repo\":\"REPO\",\"branch\":\"BRANCH\",\"data\":{\"prUrl\":\"${PR_URL}\",\"missionGoal\":\"MISSION_GOAL\"}}"
    ```
 
-3. Tell the user:
+2. Tell the user:
    > All review gates passed. PR is ready for human review.
    > **PR:** [PR_URL]
    > **Branch:** BRANCH
