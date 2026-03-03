@@ -9,7 +9,7 @@ A Python port of the R package sensR providing:
 - ROC/AUC analysis and visualization
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Aigora"
 
 # Core types and result classes
