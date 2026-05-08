@@ -5,8 +5,15 @@ from __future__ import annotations
 import ast
 import csv
 import json
-import tomllib
+import re
+import subprocess
+import sys
 from pathlib import Path
+
+try:
+    import tomllib
+except ImportError:  # pragma: no cover - Python 3.10 poster builds
+    import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[2]
 POSTER = ROOT / "poster"
@@ -109,6 +116,28 @@ def test_inventory() -> tuple[list[dict[str, object]], int, int]:
     return rows, total_functions, total_items
 
 
+def pytest_collected_count() -> int | None:
+    try:
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "--collect-only", "-q"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+    except OSError as exc:
+        print(f"[collect] warning: could not run pytest collection: {exc}")
+        return None
+    if result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip()
+        print(f"[collect] warning: pytest collection failed: {detail}")
+        return None
+    match = re.search(r"=+\s+(\d+)\s+tests collected", result.stdout)
+    if match:
+        return int(match.group(1))
+    print("[collect] warning: pytest collection count not found; using AST estimate")
+    return None
+
+
 def exported_api_count() -> tuple[int, list[str]]:
     tree = ast.parse((ROOT / "senspy" / "__init__.py").read_text())
     for node in ast.walk(tree):
@@ -179,7 +208,8 @@ def write_test_inventory(rows: list[dict[str, object]]) -> None:
 def make_qr() -> None:
     try:
         import qrcode
-    except Exception:
+    except ImportError:
+        print("[collect] warning: qrcode package not found; skipping QR generation")
         return
 
     qr = qrcode.QRCode(border=2, box_size=12)
@@ -196,6 +226,7 @@ def main() -> None:
     protocols = parse_protocols()
     doubles = parse_double_protocols()
     tests, test_functions, estimated_items = test_inventory()
+    collected_items = pytest_collected_count()
     api_count, api_exports = exported_api_count()
     dataclasses = dataclass_inventory()
 
@@ -220,6 +251,7 @@ def main() -> None:
         "double_protocols": doubles,
         "test_functions": test_functions,
         "estimated_pytest_items": estimated_items,
+        "collected_pytest_items": collected_items or estimated_items,
         "api_export_count": api_count,
         "api_exports": api_exports,
         "dataclass_count": len(dataclasses),
@@ -232,7 +264,7 @@ def main() -> None:
         "[collect] "
         f"{summary['total_protocol_variants']} variants, "
         f"{test_functions} test functions, "
-        f"{estimated_items} estimated pytest items"
+        f"{summary['collected_pytest_items']} collected pytest items"
     )
 
 

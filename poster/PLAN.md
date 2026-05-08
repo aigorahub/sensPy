@@ -114,5 +114,5 @@ notes: This is a finite, single-deliverable run; batches are smaller than defaul
 
 - Reference poster: sibling `cd-database-proto` Sensometrics poster at `poster/print_artifacts/sensometrics-2026-poster.png` when that repo/worktree is available locally.
 - The previous poster’s print target is B1 portrait at 27.83 in x 39.37 in and 150 DPI.
-- The sensPy repo is at `v0.2.0`; AST inspection finds 740 test functions and 825 estimated collected pytest cases.
+- The sensPy repo is at `v0.2.0`; AST inspection finds 740 test functions, and pytest collects 851 cases in the poster venv.
 - Use `sensR v1.5-3`/`v1.5.3` wording carefully; repo docs use both representations.

@@ -54,8 +54,6 @@ def main() -> None:
             str(PPTX),
         ],
         check=True,
-        capture_output=True,
-        text=True,
     )
 
     if not PDF.exists():
@@ -66,8 +64,6 @@ def main() -> None:
     subprocess.run(
         [pdftoppm, "-r", str(DPI), "-png", str(PDF), str(tmp_root)],
         check=True,
-        capture_output=True,
-        text=True,
     )
 
     produced = OUT / "senspy-sensometrics-2026-poster_tmp-1.png"

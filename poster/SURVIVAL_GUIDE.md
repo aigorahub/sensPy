@@ -24,14 +24,14 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 - **Checkpoint expectation:** final poster artifacts in this turn
 - **Time budget:** finite, best effort until complete
 - **Average batch time so far:** ~9m
-- **Batches remaining:** 1 of 4
+- **Batches remaining:** 0 of 4
 
 ## Stop Gate
 
-- **Planned batches remaining:** 1
-- **Stop allowed right now:** no
-- **Why:** final repo validation, PR feedback sweep, and handoff are still incomplete
-- **Next required action:** start Batch 4 QA, validation, and handoff
+- **Planned batches remaining:** 0
+- **Stop allowed right now:** yes
+- **Why:** all planned poster batches are complete and final validation has passed
+- **Next required action:** final response with PR and artifact handoff
 
 ## Effort Standard
 
@@ -71,13 +71,13 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 
 ## Current Phase
 
-**Status:** In progress
+**Status:** Complete
 
-**Active batch:** Batch 4: QA, Validation, And Handoff
+**Active batch:** none
 
-**What was just finished:** Batch 3 assembled the B1 PPTX, exported the 4175 x 5906 PNG, and passed poster QA.
+**What was just finished:** Batch 4 regenerated the poster, ran final QA and full pytest, addressed PR review feedback, and prepared the handoff.
 
-**Single next action:** Run final validation, poll/respond to PR comments, update poster README, and commit/push handoff state.
+**Single next action:** send the final response after the Batch 4 commit and push.
 
 ## Active Compute
 
@@ -85,20 +85,19 @@ No active paid or long-running compute.
 
 ## Next Exact Batch
 
-**Batch:** 4: QA, Validation, And Handoff
+**Batch:** Complete
 
 **Scope:**
-- Run final poster and repo validation.
-- Add poster README and close review feedback.
-- Commit, push, and prepare final handoff.
+- No remaining implementation scope.
+- The poster pipeline and final artifacts are ready for user review.
 
 **Acceptance criteria:**
-- [ ] `bash poster/build.sh` passes on current tip.
-- [ ] `poster/.venv/bin/python -m pytest -q` passes or any unrelated issue is documented.
-- [ ] PR comments/checks are polled and blocking comments are addressed.
-- [ ] Final artifact paths are documented.
+- [x] `bash poster/build.sh` passes on current tip.
+- [x] `poster/.venv/bin/python -m pytest -q` passes.
+- [x] PR comments/checks are polled and blocking comments are addressed.
+- [x] Final artifact paths are documented in `poster/README.md`.
 
-**Risk:** full pytest or remote CI may surface package issues unrelated to poster files.
+**Risk:** GitHub `claude-review` is failing because the workflow is missing an Anthropic API/OAuth token; repository CI tests and CodeQL passed on the PR.
 
 **Rollback tag:** `elves/pre-batch-4`
 

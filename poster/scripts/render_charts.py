@@ -161,7 +161,7 @@ def test_inventory() -> None:
     ax.text(
         0.98,
         0.06,
-        f"{summary['test_functions']} test functions / {summary['estimated_pytest_items']} estimated collected cases",
+        f"{summary['test_functions']} test functions / {summary['collected_pytest_items']} collected cases",
         transform=ax.transAxes,
         ha="right",
         fontsize=11,

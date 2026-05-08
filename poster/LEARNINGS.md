@@ -8,6 +8,8 @@
 
 - 2026-05-07: Global `python3` in this environment does not have `pytest`; poster tooling should create and use `poster/.venv`.
 - 2026-05-07: Poster export requires LibreOffice (`soffice`) and Poppler (`pdftoppm`) on PATH, with tool paths overridable in scripts when needed.
+- 2026-05-07: Poster helper scripts should remain Python 3.10-compatible; use `tomli` as the `tomllib` fallback when needed.
+- 2026-05-07: Do not hide converter subprocess output in poster exports; visible LibreOffice and Poppler logs make PR/CI failures easier to diagnose.
 
 ## Review Heuristics
 

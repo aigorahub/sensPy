@@ -295,7 +295,17 @@ def build_metrics(slide, summary):
     y = add_heading(slide, "What sensPy ports", RIGHT_X, 5.0, COL_W)
     card_w = (COL_W - 0.45) / 2
     add_metric(slide, RIGHT_X + 0.1, y + 0.12, card_w, 1.75, "13", "protocol variants", "8 single + 5 double")
-    add_metric(slide, RIGHT_X + 0.35 + card_w, y + 0.12, card_w, 1.75, "740+", "automated tests", "825 estimated pytest cases", color=GREEN)
+    add_metric(
+        slide,
+        RIGHT_X + 0.35 + card_w,
+        y + 0.12,
+        card_w,
+        1.75,
+        "740+",
+        "automated tests",
+        f"{summary['collected_pytest_items']} collected cases",
+        color=GREEN,
+    )
     add_metric(slide, RIGHT_X + 0.1, y + 2.12, card_w, 1.75, summary["sensr_version"], "sensR fixture version", "golden parity data")
     add_metric(slide, RIGHT_X + 0.35 + card_w, y + 2.12, card_w, 1.75, str(summary["dataclass_count"]), "typed dataclasses", "structured Python results", color=GREEN)
     add_text(
