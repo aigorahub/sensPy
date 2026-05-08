@@ -2,10 +2,10 @@
 
 ## Run Digest
 
-- **Last updated:** 2026-05-07 22:00 EDT
+- **Last updated:** 2026-05-07 22:17 EDT
 - **Current phase:** Complete
 - **Active batch:** none
-- **Last completed batch:** User Typography Follow-Up
+- **Last completed batch:** User Large-Type Redesign Follow-Up
 - **Next exact batch:** none
 - **Active PR:** #1
 - **Docs promoted this run:** `poster/LEARNINGS.md`
@@ -444,6 +444,35 @@
 
 **Next:**
 1. Commit and push the readability follow-up.
+2. Send final handoff.
+
+---
+
+## 2026-05-07 22:17 EDT
+
+**Batch:** user-directed large-type redesign follow-up
+**Contract status:** complete
+
+**What changed:**
+- Reworked the poster from a dense multi-detail layout into a large-type conference layout.
+- Removed the code sample and four-step workflow strip so body copy, captions, and card text can sit at poster-readable sizes.
+- Replaced the small architecture diagram with a large text architecture statement.
+- Increased chart typography again and simplified the validation inventory chart to seven readable bars.
+- Regenerated all chart assets plus the PPTX and PNG print artifacts.
+
+**Commands run:**
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `bash poster/build.sh` -> PASS; export remains 4175 x 5906 and poster QA passed.
+- `poster/.venv/bin/python poster/scripts/qa_check.py` -> PASS.
+- Visual inspection of the regenerated PNG -> PASS; header overlap and small architecture text were fixed after the first rebuild.
+
+**Regression attestation:**
+- No sensPy statistical code or tests changed.
+- Poster artifact pipeline still passes.
+- Workspace remains clean except the pre-existing untracked `.agents/` directory after commit.
+
+**Next:**
+1. Commit and push the large-type redesign.
 2. Send final handoff.
 
 ---

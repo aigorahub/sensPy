@@ -43,10 +43,10 @@ plt.rcParams.update(
         "ytick.color": INK,
         "text.color": INK,
         "font.family": "DejaVu Sans",
-        "font.size": 13,
-        "axes.labelsize": 14,
-        "xtick.labelsize": 12.5,
-        "ytick.labelsize": 12.5,
+        "font.size": 17,
+        "axes.labelsize": 19,
+        "xtick.labelsize": 16,
+        "ytick.labelsize": 16,
         "axes.titleweight": "normal",
         "savefig.facecolor": CANVAS,
     }
@@ -70,12 +70,12 @@ def protocol_coverage() -> None:
     ax.set_ylim(-0.8, len(rows) - 0.2)
     ax.axis("off")
 
-    ax.text(0.55, len(rows) - 0.05, "single", ha="center", va="bottom", fontsize=16)
-    ax.text(1.55, len(rows) - 0.05, "double", ha="center", va="bottom", fontsize=16)
+    ax.text(0.55, len(rows) - 0.05, "single", ha="center", va="bottom", fontsize=22)
+    ax.text(1.55, len(rows) - 0.05, "double", ha="center", va="bottom", fontsize=22)
 
     for i, row in enumerate(rows):
         y = len(rows) - 1 - i
-        ax.text(-0.45, y, row["display"], ha="left", va="center", fontsize=15.5)
+        ax.text(-0.45, y, row["display"], ha="left", va="center", fontsize=20.5)
         for j, key in enumerate(["single", "double"]):
             available = int(row[key])
             color = GREEN if available else "#ded8cd"
@@ -97,7 +97,7 @@ def protocol_coverage() -> None:
                 "yes" if available else "-",
                 ha="center",
                 va="center",
-                fontsize=13.5,
+                fontsize=17.5,
                 color="white" if available else GREY,
                 weight="bold" if available else "normal",
             )
@@ -107,7 +107,7 @@ def protocol_coverage() -> None:
             f"p0={float(row['p_guess']):.2g}",
             ha="left",
             va="center",
-            fontsize=13,
+            fontsize=17,
             color=GREY,
         )
 
@@ -127,31 +127,31 @@ def psychometric_curves() -> None:
     for method, label, color in methods:
         ax.plot(d, psy_fun(d, method=method), label=label, lw=2.8, color=color)
 
-    ax.set_title("Common d-prime scale across sensory protocols", fontsize=19, pad=13)
+    ax.set_title("Common d-prime scale across sensory protocols", fontsize=24, pad=16)
     ax.set_xlabel("d-prime")
     ax.set_ylabel("proportion correct")
     ax.set_xlim(0, 4)
     ax.set_ylim(0.25, 1.01)
     ax.grid(True, color="#e8e0d5", linewidth=0.8)
-    ax.legend(frameon=False, ncol=3, loc="lower right", fontsize=13)
+    ax.legend(frameon=False, ncol=3, loc="lower right", fontsize=16)
     save(fig, "psychometric_curves.png")
 
 
 def test_inventory() -> None:
     rows = read_csv(CHART_DATA / "test_inventory.csv")
-    top = sorted(rows, key=lambda r: int(r["test_functions"]), reverse=True)[:10]
+    top = sorted(rows, key=lambda r: int(r["test_functions"]), reverse=True)[:7]
     labels = [r["category"] for r in top][::-1]
     values = [int(r["test_functions"]) for r in top][::-1]
     colors = [CORAL if "sensr" in label else GREEN if "coverage" in label else SAGE for label in labels]
 
     fig, ax = plt.subplots(figsize=(8.1, 5.0))
     bars = ax.barh(labels, values, color=colors, alpha=0.92)
-    ax.set_title("Validation surface spans unit, coverage, and parity tests", fontsize=19, pad=13)
+    ax.set_title("Validation surface spans unit, coverage, and parity tests", fontsize=24, pad=16)
     ax.set_xlabel("test functions")
     ax.grid(axis="x", color="#e8e0d5", linewidth=0.8)
     ax.spines[["top", "right"]].set_visible(False)
     for bar, value in zip(bars, values, strict=True):
-        ax.text(value + 1, bar.get_y() + bar.get_height() / 2, str(value), va="center", fontsize=12.5)
+        ax.text(value + 1, bar.get_y() + bar.get_height() / 2, str(value), va="center", fontsize=16)
 
     save(fig, "test_inventory.png")
 
@@ -165,13 +165,13 @@ def roc_bridge() -> None:
         auc = stats.norm.cdf(d_prime / np.sqrt(2))
         ax.plot(fpr, tpr, lw=2.8, color=color, label=f"d={d_prime:.1f}, AUC={auc:.2f}")
     ax.plot([0, 1], [0, 1], "--", color=GREY, lw=1.3, label="chance")
-    ax.set_title("ROC analysis remains in the Python workflow", fontsize=18.5, pad=13)
+    ax.set_title("ROC analysis remains in the Python workflow", fontsize=22, pad=15)
     ax.set_xlabel("false positive rate")
     ax.set_ylabel("true positive rate")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.grid(True, color="#e8e0d5", linewidth=0.8)
-    ax.legend(frameon=False, loc="lower right", fontsize=12.5)
+    ax.legend(frameon=False, loc="lower right", fontsize=15)
     save(fig, "roc_bridge.png")
 
 
@@ -200,8 +200,8 @@ def architecture_pipeline() -> None:
                 linewidth=1.6,
             )
         )
-        ax.text(x + w / 2, 0.58, title, transform=ax.transAxes, ha="center", va="center", fontsize=15, weight="bold")
-        ax.text(x + w / 2, 0.40, sub, transform=ax.transAxes, ha="center", va="center", fontsize=11.2, color="#4f5c53")
+        ax.text(x + w / 2, 0.58, title, transform=ax.transAxes, ha="center", va="center", fontsize=17.5, weight="bold")
+        ax.text(x + w / 2, 0.40, sub, transform=ax.transAxes, ha="center", va="center", fontsize=13.5, color="#4f5c53")
         if i < len(stages) - 1:
             ax.add_patch(
                 FancyArrowPatch(
@@ -214,7 +214,7 @@ def architecture_pipeline() -> None:
                     linewidth=1.2,
                 )
             )
-    ax.text(0.05, 0.12, "Validation is an architecture feature, not an afterthought.", transform=ax.transAxes, fontsize=14.5, color=CORAL, weight="bold")
+    ax.text(0.05, 0.12, "Validation is an architecture feature, not an afterthought.", transform=ax.transAxes, fontsize=17, color=CORAL, weight="bold")
     save(fig, "architecture_pipeline.png")
 
 
