@@ -15,7 +15,7 @@ sensPy provides a comprehensive Python implementation of [sensR](https://cran.r-
 
 - **Numerical parity** with sensR (validated against R outputs)
 - **Modern Python practices** (type hints, dataclasses, NumPy/SciPy integration)
-- **Full test coverage** with 500+ tests
+- **Full test coverage** with 740+ automated tests
 
 ## Installation
 
@@ -44,6 +44,7 @@ All standard protocols with single and double variants:
 | Tetrad | ✅ | ✅ |
 | Hexad | ✅ | - |
 | 2-out-of-5 | ✅ | - |
+| 2-out-of-5F | ✅ | - |
 
 ### Statistical Models
 

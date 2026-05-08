@@ -3,10 +3,13 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 POSTER_DIR="$ROOT_DIR/poster"
-PYTHON_BIN="${PYTHON_BIN:-/opt/homebrew/bin/python3.12}"
 
-if [[ ! -x "$PYTHON_BIN" ]]; then
-  PYTHON_BIN="$(command -v python3)"
+if [[ -z "${PYTHON_BIN:-}" ]]; then
+  if command -v python3.12 >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python3.12)"
+  else
+    PYTHON_BIN="$(command -v python3)"
+  fi
 fi
 
 cd "$ROOT_DIR"
@@ -20,3 +23,6 @@ fi
 
 "$POSTER_DIR/.venv/bin/python" "$POSTER_DIR/scripts/collect_metrics.py"
 "$POSTER_DIR/.venv/bin/python" "$POSTER_DIR/scripts/render_charts.py"
+"$POSTER_DIR/.venv/bin/python" "$POSTER_DIR/scripts/build_pptx.py"
+"$POSTER_DIR/.venv/bin/python" "$POSTER_DIR/scripts/export_png.py"
+"$POSTER_DIR/.venv/bin/python" "$POSTER_DIR/scripts/qa_check.py"

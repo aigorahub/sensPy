@@ -7,7 +7,7 @@
 ## Validation and Tooling
 
 - 2026-05-07: Global `python3` in this environment does not have `pytest`; poster tooling should create and use `poster/.venv`.
-- 2026-05-07: LibreOffice export is available at `/opt/homebrew/bin/soffice`; PNG rasterization can use `/opt/homebrew/bin/pdftoppm`.
+- 2026-05-07: Poster export requires LibreOffice (`soffice`) and Poppler (`pdftoppm`) on PATH, with tool paths overridable in scripts when needed.
 
 ## Review Heuristics
 

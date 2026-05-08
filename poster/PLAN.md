@@ -73,6 +73,7 @@ Create a print-ready Sensometrics 2026 poster for the abstract, "sensPy: Bringin
 **Tasks:**
 - [ ] Run poster QA checks.
 - [ ] Run relevant repo validation after the poster venv is available.
+- [ ] Update repository README.md so the public protocol table and test count agree with repo-derived poster claims.
 - [ ] Commit and push the completed branch.
 - [ ] Provide a concise handoff with artifact paths and verification notes.
 
@@ -111,7 +112,7 @@ notes: This is a finite, single-deliverable run; batches are smaller than defaul
 
 ## Notes
 
-- Reference poster path: `/Users/johnennis/aigora/clients/cd/cd-database-proto/.claude/worktrees/clever-mcnulty-8de427/poster/print_artifacts/sensometrics-2026-poster.png`.
+- Reference poster: sibling `cd-database-proto` Sensometrics poster at `poster/print_artifacts/sensometrics-2026-poster.png` when that repo/worktree is available locally.
 - The previous poster’s print target is B1 portrait at 27.83 in x 39.37 in and 150 DPI.
-- The sensPy repo is at `v0.2.0`; README currently says 500+ tests, while AST inspection finds 740 test functions.
+- The sensPy repo is at `v0.2.0`; AST inspection finds 740 test functions and 825 estimated collected pytest cases.
 - Use `sensR v1.5-3`/`v1.5.3` wording carefully; repo docs use both representations.

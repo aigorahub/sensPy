@@ -8,7 +8,7 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 
 - **Run mode:** finite
 - **Stop policy:** stop only after all planned batches are complete, a genuine blocker appears, or the user explicitly stops the run
-- **User intent:** "plan it out using [$elves](/Users/johnennis/.codex/skills/elves/SKILL.md) then do it"
+- **User intent:** "plan it out using the Elves skill, then do it"
 - **Checkpoint due by:** none
 - **Checkpoint semantics:** none
 - **May continue after checkpoint:** yes
@@ -23,15 +23,15 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 - **User returns:** not specified
 - **Checkpoint expectation:** final poster artifacts in this turn
 - **Time budget:** finite, best effort until complete
-- **Average batch time so far:** ~8m
-- **Batches remaining:** 2 of 4
+- **Average batch time so far:** ~9m
+- **Batches remaining:** 1 of 4
 
 ## Stop Gate
 
-- **Planned batches remaining:** 2
+- **Planned batches remaining:** 1
 - **Stop allowed right now:** no
-- **Why:** PowerPoint, print PNG, final QA, and validation are still incomplete
-- **Next required action:** start Batch 3 poster assembly and export
+- **Why:** final repo validation, PR feedback sweep, and handoff are still incomplete
+- **Next required action:** start Batch 4 QA, validation, and handoff
 
 ## Effort Standard
 
@@ -73,11 +73,11 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 
 **Status:** In progress
 
-**Active batch:** Batch 3: Poster Assembly And Export
+**Active batch:** Batch 4: QA, Validation, And Handoff
 
-**What was just finished:** Batch 2 generated repo-backed metrics and five nonblank chart PNGs.
+**What was just finished:** Batch 3 assembled the B1 PPTX, exported the 4175 x 5906 PNG, and passed poster QA.
 
-**Single next action:** Add PPTX assembly, PNG export, QA scripts, and extend `poster/build.sh`.
+**Single next action:** Run final validation, poll/respond to PR comments, update poster README, and commit/push handoff state.
 
 ## Active Compute
 
@@ -85,21 +85,22 @@ No active paid or long-running compute.
 
 ## Next Exact Batch
 
-**Batch:** 3: Poster Assembly And Export
+**Batch:** 4: QA, Validation, And Handoff
 
 **Scope:**
-- Build a B1 one-slide PowerPoint poster.
-- Export a 150 DPI PNG via LibreOffice and Poppler.
-- Add QA checks for dimensions, generated assets, and placeholder text.
+- Run final poster and repo validation.
+- Add poster README and close review feedback.
+- Commit, push, and prepare final handoff.
 
 **Acceptance criteria:**
-- [ ] `poster/print_artifacts/senspy-sensometrics-2026-poster.pptx` exists.
-- [ ] `poster/print_artifacts/senspy-sensometrics-2026-poster.png` exists at print dimensions.
-- [ ] Rendered PNG is visually inspected.
+- [ ] `bash poster/build.sh` passes on current tip.
+- [ ] `poster/.venv/bin/python -m pytest -q` passes or any unrelated issue is documented.
+- [ ] PR comments/checks are polled and blocking comments are addressed.
+- [ ] Final artifact paths are documented.
 
-**Risk:** LibreOffice export may shift text or fonts, so inspect the actual rasterized PNG.
+**Risk:** full pytest or remote CI may surface package issues unrelated to poster files.
 
-**Rollback tag:** `elves/pre-batch-3`
+**Rollback tag:** `elves/pre-batch-4`
 
 ## Tool Configuration
 
@@ -135,5 +136,3 @@ notification: pr-comment
 4. Read `poster/PLAN.md`.
 5. Read `poster/EXECUTION_LOG.md`.
 6. Continue with the first incomplete batch named in the Stop Gate or structured state.
-
-# READ THIS FILE FIRST AFTER ANY COMPACTION OR RESTART

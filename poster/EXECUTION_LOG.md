@@ -2,11 +2,11 @@
 
 ## Run Digest
 
-- **Last updated:** 2026-05-07 20:44 EDT
+- **Last updated:** 2026-05-07 20:50 EDT
 - **Current phase:** In progress
-- **Active batch:** Batch 3: Poster Assembly And Export
-- **Last completed batch:** Batch 2: Data And Visual Proof Objects
-- **Next exact batch:** Batch 3: Poster Assembly And Export
+- **Active batch:** Batch 4: QA, Validation, And Handoff
+- **Last completed batch:** Batch 3: Poster Assembly And Export
+- **Next exact batch:** Batch 4: QA, Validation, And Handoff
 - **Active PR:** #1
 - **Docs promoted this run:** `poster/LEARNINGS.md`
 
@@ -90,7 +90,7 @@
 
 **Commands run:**
 - `git checkout -b codex/senspy-sensometrics-poster` -> branch created.
-- `python3 /Users/johnennis/.codex/skills/elves/scripts/install_doctor.py --startup` -> advisory completed with no blocking output.
+- `python3 <elves-skill>/scripts/install_doctor.py --startup` -> advisory completed with no blocking output.
 - `gh auth status` -> authenticated.
 - `git push -u origin codex/senspy-sensometrics-poster` -> branch pushed.
 - `gh pr create ...` -> PR #1 opened.
@@ -199,6 +199,104 @@
 **Next:**
 1. Start Batch 3: add PPTX assembler, export script, and QA.
 2. Run full poster build and visually inspect the PNG.
+
+---
+
+## 2026-05-07 20:50 EDT
+
+**Batch:** 3: Poster Assembly And Export
+**Contract status:** all criteria met
+
+**Timing:**
+- Implement: 12m | Validate: 5m | Review: 5m | Total: 22m
+- Session elapsed: ~42m | Budget remaining: enough to complete final QA
+
+**What changed:**
+- `poster/scripts/build_pptx.py`: assembles the B1 portrait PowerPoint poster.
+- `poster/scripts/export_png.py`: exports PPTX to PDF via LibreOffice and PNG via Poppler.
+- `poster/scripts/qa_check.py`: validates summary metrics, artifacts, image dimensions, nonblank charts, and banned placeholders.
+- `poster/build.sh`: extended to run the full poster build, export, and QA pipeline.
+- `poster/print_artifacts/*`: generated final PPTX and PNG artifacts.
+- `README.md`: updated test count to 740+ and added the 2-out-of-5F protocol row.
+- `poster/PLAN.md`, `poster/SURVIVAL_GUIDE.md`, `poster/LEARNINGS.md`: addressed PR feedback about absolute local paths and README consistency.
+
+**Commands run:**
+- `bash poster/build.sh` -> PASS; exported 4175 x 5906 PNG.
+- `poster/.venv/bin/python poster/scripts/qa_check.py` -> PASS.
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `rg -n "/Users|/opt/homebrew|TODO|TBD|lorem ipsum|500\\+ tests" README.md poster .elves-session.json` -> only QA banned-token list remains, intentional.
+- Visual inspection of rendered PNG -> PASS after tuning bottom workflow strip and code panel.
+
+**Test results:**
+- Lint: PASS (`compileall`).
+- Typecheck: N/A.
+- Build: PASS (`bash poster/build.sh`).
+- Tests: N/A for package tests; full pytest moves to Batch 4.
+- E2E: N/A.
+- Smoke: PASS (`qa_check.py`).
+
+**Review findings:**
+- [Medium] Protocol count discrepancy: fixed by documenting `2-out-of-5F` in README.
+- [Medium] README test count mismatch: fixed by changing README from 500+ to 740+ automated tests.
+- [Medium] Absolute local paths in poster docs: fixed by replacing user-specific paths with portable text.
+- [Medium] Hardcoded Homebrew paths in learnings/build docs: fixed by documenting tools by command name and making `build.sh` choose Python from PATH.
+- [Medium] Missing scripts/artifacts in early PR: fixed by adding the full pipeline and generated artifacts.
+
+**Decisions made:**
+- Kept charts as generated PNGs inside an editable PowerPoint shell. This preserves reproducible data visuals while keeping poster text/layout easy to adjust.
+- Used a bottom "Open Python sensory workflow" strip to reduce empty space after visual inspection of the first export.
+
+**Process adjustments:**
+- none
+
+**Docs:**
+- Impacted: README and poster run docs.
+- Updated: README protocol/test count, plan, survival guide, learnings, execution log.
+- Promoted: no new `.ai-docs` updates; poster-specific lessons remain in `poster/LEARNINGS.md`.
+- Deferred: none.
+
+**Regression attestation:**
+- Cumulative diff: `git diff main...HEAD --stat` shows additive poster pipeline/artifacts plus README documentation updates.
+- Files outside batch scope: README was touched to resolve PR feedback and keep public docs consistent with poster claims.
+- Shared surfaces modified: README only; no code, APIs, or tests changed.
+- Consumers verified: N/A for README docs; package imports untouched.
+- Test baseline: 740 test functions estimated at session start; tests were not removed or modified.
+- Confidence: HIGH for poster artifacts because full build and QA pass and the rasterized PNG was visually inspected. MEDIUM for repository-wide health until Batch 4 runs pytest.
+
+**Commit:** pending
+**Rollback tag:** `elves/pre-batch-3`
+
+**Next:**
+1. Add `poster/README.md`.
+2. Run full pytest and final PR/comment/check sweep.
+
+---
+
+## Batch 4 Contract: 2026-05-07 20:51 EDT
+
+**Behaviors:**
+- Document how to rebuild and use the final poster artifacts.
+- Run final validation gates and PR feedback sweep.
+- Leave git status clean except for the pre-existing untracked `.agents/` directory.
+
+**Build on:**
+- Completed poster pipeline and artifacts from Batches 2-3.
+- PR feedback already triaged in `.elves-session.json`.
+
+**Acceptance criteria:**
+- [ ] `poster/README.md` documents deliverables, build command, and source evidence.
+- [ ] `bash poster/build.sh` passes on current tip.
+- [ ] `poster/.venv/bin/python -m pytest -q` passes or any unrelated/pre-existing failures are documented.
+- [ ] PR comments/checks are polled after final push.
+
+**Blast radius:**
+- `poster/README.md` and run-state docs, additive/modified.
+- Risk: low, remaining work is validation and documentation.
+
+**Pre-implementation survey:**
+- `poster/print_artifacts/` -> contains final PNG/PPTX.
+- `poster/scripts/qa_check.py` -> poster QA gate already passes.
+- PR comments -> actionable path/count feedback addressed in Batch 3 changes.
 
 ---
 
