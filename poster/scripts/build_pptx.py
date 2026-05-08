@@ -24,7 +24,7 @@ PPTX = OUT / "senspy-sensometrics-2026-poster.pptx"
 SLIDE_W = 27.83
 SLIDE_H = 39.37
 M = 0.85
-HEADER_H = 4.65
+HEADER_H = 4.35
 FOOTER_H = 1.45
 GAP = 0.55
 COL_W = (SLIDE_W - 2 * M - GAP) / 2
@@ -182,10 +182,62 @@ def add_metric(slide, x, y, w, h, value, label, sub=None, *, color=CORAL):
         )
 
 
+def add_compact_metric(slide, x, y, w, h, value, label, sub=None, *, color=CORAL):
+    add_rect(slide, x, y, w, h, MIST, line="#d2c9bb", radius=True)
+    add_text(
+        slide,
+        value,
+        x + 0.06,
+        y + 0.1,
+        w - 0.12,
+        0.42,
+        size=23,
+        font=BODY,
+        color=color,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+        margin=0,
+    )
+    add_text(
+        slide,
+        label,
+        x + 0.1,
+        y + 0.61,
+        w - 0.2,
+        0.34,
+        size=11.2,
+        font=BODY,
+        color=INK,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+        margin=0,
+    )
+    if sub:
+        add_text(
+            slide,
+            sub,
+            x + 0.12,
+            y + 0.98,
+            w - 0.24,
+            h - 1.03,
+            size=8.8,
+            font=BODY,
+            color="#4d5a52",
+            align=PP_ALIGN.CENTER,
+            margin=0,
+        )
+
+
 def add_callout(slide, x, y, w, h, title, body):
     add_rect(slide, x, y, w, h, MIST, line="#d2c9bb", radius=True)
     add_text(slide, title, x + 0.22, y + 0.18, w - 0.44, 0.35, size=14, color=CORAL, bold=True, align=PP_ALIGN.CENTER)
     add_text(slide, body, x + 0.32, y + 0.58, w - 0.64, h - 0.72, size=14, color=INK, align=PP_ALIGN.CENTER)
+
+
+def add_takeaway(slide, x, y, w, h, title, body, *, color=CORAL):
+    add_rect(slide, x, y, w, h, MIST, line="#d2c9bb", radius=True)
+    add_text(slide, title, x + 0.22, y + 0.18, w - 0.44, 0.36, size=15, color=color, bold=True, align=PP_ALIGN.CENTER, margin=0)
+    add_text(slide, body, x + 0.3, y + 0.68, w - 0.6, h - 0.82, size=12.7, color=INK, align=PP_ALIGN.CENTER, margin=0)
 
 
 def build_header(slide):
@@ -195,7 +247,7 @@ def build_header(slide):
         slide,
         "sensPy",
         M,
-        0.62,
+        0.5,
         SLIDE_W - 2 * M,
         1.25,
         size=88,
@@ -208,10 +260,10 @@ def build_header(slide):
         slide,
         "Bringing the gold standard of sensR to the Python sensory ecosystem",
         M,
-        1.92,
+        1.78,
         SLIDE_W - 2 * M,
         0.82,
-        size=34,
+        size=32,
         font=BODY,
         color=CORAL,
         align=PP_ALIGN.CENTER,
@@ -221,7 +273,7 @@ def build_header(slide):
         slide,
         "John M. Ennis | Aigora | Sensometrics 2026",
         M,
-        3.2,
+        3.0,
         SLIDE_W - 2 * M,
         0.5,
         size=22,
@@ -231,7 +283,7 @@ def build_header(slide):
         align=PP_ALIGN.CENTER,
         margin=0,
     )
-    add_text(slide, "Python-native Thurstonian sensory discrimination", 21.5, 0.72, 4.8, 0.5, size=11.5, color="#526057", align=PP_ALIGN.RIGHT)
+    add_text(slide, "Python-native Thurstonian sensory discrimination", 21.5, 0.62, 4.8, 0.5, size=11.5, color="#526057", align=PP_ALIGN.RIGHT)
 
 
 def build_footer(slide, summary):
@@ -256,35 +308,44 @@ def build_footer(slide, summary):
 
 
 def build_problem(slide):
-    y = add_heading(slide, "The problem", LEFT_X, 5.0, COL_W)
+    y = add_heading(slide, "The problem", LEFT_X, 4.7, COL_W)
     add_text(
         slide,
-        "sensR has been the trusted R reference for sensory discrimination. But modern data science teams increasingly live in Python, where signal detection theory often arrives as isolated scripts rather than validated tools.",
+        "sensR is the trusted R reference for sensory discrimination. Python teams need the same signal-detection discipline without leaving their SciPy, dataclass, and Plotly workflows.",
         LEFT_X + 0.05,
         y + 0.05,
         COL_W - 0.1,
-        1.6,
-        size=19,
+        1.15,
+        size=18,
         color=INK,
         align=PP_ALIGN.CENTER,
     )
     add_callout(
         slide,
-        LEFT_X + 0.5,
-        y + 1.95,
-        COL_W - 1.0,
+        LEFT_X + 0.2,
+        y + 1.35,
+        (COL_W - 0.6) / 2,
         1.45,
-        "Porting standard",
-        "Keep the sensR numerical contract. Move the workflow into SciPy, dataclasses, and Plotly.",
+        "Gold standard",
+        "Preserve sensR's numerical contract and protocol vocabulary.",
+    )
+    add_callout(
+        slide,
+        LEFT_X + 0.4 + (COL_W - 0.6) / 2,
+        y + 1.35,
+        (COL_W - 0.6) / 2,
+        1.45,
+        "Python-native",
+        "Return typed objects, plots, and planning tools in one ecosystem.",
     )
     add_text(
         slide,
         "Goal: make sensory discrimination methods feel native in Python without loosening the validation discipline.",
         LEFT_X + 0.15,
-        y + 3.7,
+        y + 3.12,
         COL_W - 0.3,
         0.8,
-        size=17,
+        size=16.5,
         color=CORAL,
         bold=True,
         align=PP_ALIGN.CENTER,
@@ -292,27 +353,20 @@ def build_problem(slide):
 
 
 def build_metrics(slide, summary):
-    y = add_heading(slide, "What sensPy ports", RIGHT_X, 5.0, COL_W)
-    card_w = (COL_W - 0.45) / 2
-    add_metric(slide, RIGHT_X + 0.1, y + 0.12, card_w, 1.75, "13", "protocol variants", "8 single + 5 double")
-    add_metric(
-        slide,
-        RIGHT_X + 0.35 + card_w,
-        y + 0.12,
-        card_w,
-        1.75,
-        "740+",
-        "automated tests",
-        f"{summary['collected_pytest_items']} collected cases",
-        color=GREEN,
-    )
-    add_metric(slide, RIGHT_X + 0.1, y + 2.12, card_w, 1.75, summary["sensr_version"], "sensR fixture version", "golden parity data")
-    add_metric(slide, RIGHT_X + 0.35 + card_w, y + 2.12, card_w, 1.75, str(summary["dataclass_count"]), "typed dataclasses", "structured Python results", color=GREEN)
+    y = add_heading(slide, "What sensPy ports", RIGHT_X, 4.7, COL_W)
+    card_w = (COL_W - 0.55) / 3
+    xs = [RIGHT_X + 0.05, RIGHT_X + 0.275 + card_w, RIGHT_X + 0.5 + 2 * card_w]
+    add_compact_metric(slide, xs[0], y + 0.1, card_w, 1.35, "13", "protocol variants", "8 single + 5 double")
+    add_compact_metric(slide, xs[1], y + 0.1, card_w, 1.35, "740+", "automated tests", f"{summary['collected_pytest_items']} collected cases", color=GREEN)
+    add_compact_metric(slide, xs[2], y + 0.1, card_w, 1.35, summary["sensr_version"], "sensR fixture", "golden parity data")
+    add_compact_metric(slide, xs[0], y + 1.67, card_w, 1.35, str(summary["dataclass_count"]), "dataclasses", "typed Python results", color=GREEN)
+    add_compact_metric(slide, xs[1], y + 1.67, card_w, 1.35, str(summary["api_export_count"]), "public exports", "single import surface", color=GREEN)
+    add_compact_metric(slide, xs[2], y + 1.67, card_w, 1.35, "Plotly", "interactive figures", "psychometric + ROC")
     add_text(
         slide,
         "Numerical parity targets: 3-6 decimal places across sensR-backed fixtures and boundary cases.",
         RIGHT_X + 0.18,
-        y + 4.18,
+        y + 3.32,
         COL_W - 0.36,
         0.55,
         size=15,
@@ -323,26 +377,26 @@ def build_metrics(slide, summary):
 
 
 def build_charts(slide):
-    y = add_heading(slide, "Protocol coverage", LEFT_X, 10.45, COL_W)
-    add_image_fit(slide, CHARTS / "protocol_coverage.png", LEFT_X + 0.15, y + 0.05, COL_W - 0.3, 4.35)
-    add_text(slide, "Forced-choice protocols share a common d-prime reporting scale while preserving each protocol's guessing structure.", LEFT_X + 0.25, y + 4.55, COL_W - 0.5, 0.55, size=13.5, color="#4d5a52", align=PP_ALIGN.CENTER)
+    y = add_heading(slide, "Protocol coverage", LEFT_X, 9.65, COL_W)
+    add_image_fit(slide, CHARTS / "protocol_coverage.png", LEFT_X + 0.1, y + 0.02, COL_W - 0.2, 4.75)
+    add_text(slide, "Forced-choice protocols share a common d-prime reporting scale while preserving each protocol's guessing structure.", LEFT_X + 0.25, y + 4.9, COL_W - 0.5, 0.55, size=13.5, color="#4d5a52", align=PP_ALIGN.CENTER)
 
-    y2 = add_heading(slide, "Psychometric functions", RIGHT_X, 10.45, COL_W)
-    add_image_fit(slide, CHARTS / "psychometric_curves.png", RIGHT_X + 0.05, y2 + 0.05, COL_W - 0.1, 4.4)
-    add_text(slide, "One API maps Pc, Pd, and d-prime across sensory protocols.", RIGHT_X + 0.25, y2 + 4.58, COL_W - 0.5, 0.5, size=13.5, color="#4d5a52", align=PP_ALIGN.CENTER)
+    y2 = add_heading(slide, "Psychometric functions", RIGHT_X, 9.65, COL_W)
+    add_image_fit(slide, CHARTS / "psychometric_curves.png", RIGHT_X + 0.0, y2 + 0.02, COL_W, 4.78)
+    add_text(slide, "One API maps Pc, Pd, and d-prime across sensory protocols.", RIGHT_X + 0.25, y2 + 4.92, COL_W - 0.5, 0.5, size=13.5, color="#4d5a52", align=PP_ALIGN.CENTER)
 
-    y3 = add_heading(slide, "Validation surface", LEFT_X, 17.0, COL_W)
-    add_image_fit(slide, CHARTS / "test_inventory.png", LEFT_X + 0.1, y3 + 0.05, COL_W - 0.2, 4.55)
-    add_text(slide, "Golden sensR fixtures run beside unit, coverage, simulation, plotting, and model tests.", LEFT_X + 0.25, y3 + 4.72, COL_W - 0.5, 0.5, size=13.5, color="#4d5a52", align=PP_ALIGN.CENTER)
+    y3 = add_heading(slide, "Validation surface", LEFT_X, 16.25, COL_W)
+    add_image_fit(slide, CHARTS / "test_inventory.png", LEFT_X + 0.0, y3 + 0.02, COL_W, 4.95)
+    add_text(slide, "Golden sensR fixtures run beside unit, coverage, simulation, plotting, and model tests.", LEFT_X + 0.25, y3 + 5.08, COL_W - 0.5, 0.5, size=13.5, color="#4d5a52", align=PP_ALIGN.CENTER)
 
-    y4 = add_heading(slide, "SciPy-native architecture", RIGHT_X, 17.0, COL_W)
-    add_image_fit(slide, CHARTS / "architecture_pipeline.png", RIGHT_X + 0.1, y4 + 0.15, COL_W - 0.2, 2.35)
-    add_image_fit(slide, CHARTS / "roc_bridge.png", RIGHT_X + 1.1, y4 + 2.7, COL_W - 2.2, 2.65)
+    y4 = add_heading(slide, "SciPy-native architecture", RIGHT_X, 16.25, COL_W)
+    add_image_fit(slide, CHARTS / "architecture_pipeline.png", RIGHT_X + 0.0, y4 + 0.08, COL_W, 2.55)
+    add_image_fit(slide, CHARTS / "roc_bridge.png", RIGHT_X + 0.85, y4 + 2.88, COL_W - 1.7, 2.85)
 
 
 def build_api_and_models(slide):
-    y = add_heading(slide, "Python ergonomics", LEFT_X, 24.1, COL_W)
-    add_rect(slide, LEFT_X + 0.35, y + 0.05, COL_W - 0.7, 2.85, MIST, line="#d2c9bb", radius=True)
+    y = add_heading(slide, "Python ergonomics", LEFT_X, 22.95, COL_W)
+    add_rect(slide, LEFT_X + 0.2, y + 0.05, COL_W - 0.4, 3.2, MIST, line="#d2c9bb", radius=True)
     code = (
         "from senspy import discrim, discrim_power\n"
         "\n"
@@ -354,12 +408,12 @@ def build_api_and_models(slide):
         "                      sample_size=100,\n"
         "                      method=\"triangle\")"
     )
-    add_text(slide, code, LEFT_X + 0.7, y + 0.28, COL_W - 1.4, 2.35, size=11.8, font=MONO, color=INK)
+    add_text(slide, code, LEFT_X + 0.55, y + 0.28, COL_W - 1.1, 2.7, size=12.3, font=MONO, color=INK)
     add_text(
         slide,
         "Typed result objects replace loose console output: estimates, intervals, p-values, and summaries travel together.",
         LEFT_X + 0.35,
-        y + 3.08,
+        y + 3.42,
         COL_W - 0.7,
         0.8,
         size=15.5,
@@ -368,7 +422,7 @@ def build_api_and_models(slide):
         align=PP_ALIGN.CENTER,
     )
 
-    y2 = add_heading(slide, "Advanced models", RIGHT_X, 24.1, COL_W)
+    y2 = add_heading(slide, "Advanced models", RIGHT_X, 22.95, COL_W)
     w = (COL_W - 0.75) / 3
     add_metric(slide, RIGHT_X + 0.1, y2 + 0.2, w, 1.7, "BB", "Beta-Binomial", "overdispersed panel data", color=GREEN)
     add_metric(slide, RIGHT_X + 0.35 + w, y2 + 0.2, w, 1.7, "SD", "Same-Different", "Thurstonian criterion model")
@@ -388,7 +442,7 @@ def build_api_and_models(slide):
 
 
 def build_conclusion(slide):
-    y = 30.5
+    y = 28.25
     add_heading(slide, "Conclusion", M, y, SLIDE_W - 2 * M)
     add_text(
         slide,
@@ -406,14 +460,57 @@ def build_conclusion(slide):
         slide,
         "Selected references: Brockhoff & Christensen, sensR package; Macmillan & Creelman, Detection Theory; SciPy; Plotly. Repository includes golden sensR v1.5.3 fixtures.",
         M + 1.6,
-        y + 2.05,
+        y + 1.95,
         SLIDE_W - 2 * M - 3.2,
         0.7,
         size=13.5,
         color="#4d5a52",
         align=PP_ALIGN.CENTER,
     )
-    strip_y = 34.15
+    add_text(
+        slide,
+        "What changes for sensometricians",
+        M,
+        y + 2.78,
+        SLIDE_W - 2 * M,
+        0.42,
+        size=18,
+        font=DISPLAY,
+        color=DARK,
+        align=PP_ALIGN.CENTER,
+        margin=0,
+    )
+    take_w = (SLIDE_W - 2 * M - 0.8) / 3
+    add_takeaway(
+        slide,
+        M,
+        y + 3.25,
+        take_w,
+        2.05,
+        "Validated migration",
+        "Keep sensR-backed decisions while moving analysis, planning, and visualization into Python notebooks and pipelines.",
+        color=GREEN,
+    )
+    add_takeaway(
+        slide,
+        M + take_w + 0.4,
+        y + 3.25,
+        take_w,
+        2.05,
+        "One reporting scale",
+        "Protocols expose Pc, Pd, d-prime, confidence intervals, and power on a shared API surface.",
+    )
+    add_takeaway(
+        slide,
+        M + 2 * (take_w + 0.4),
+        y + 3.25,
+        take_w,
+        2.05,
+        "Modern outputs",
+        "Typed result objects and Plotly figures make estimates easier to audit, compare, and reuse.",
+        color=GREEN,
+    )
+    strip_y = 33.55
     add_text(
         slide,
         "Open Python sensory workflow",
@@ -429,16 +526,18 @@ def build_conclusion(slide):
     )
     card_w = (SLIDE_W - 2 * M - 1.2) / 4
     cards = [
-        ("1", "Estimate", "d-prime, Pc, Pd, intervals"),
-        ("2", "Plan", "power and sample size"),
-        ("3", "Model", "overdispersion and criteria"),
-        ("4", "Visualize", "Plotly psychometric + ROC"),
+        ("1", "Estimate", "d-prime, Pc, Pd, intervals", "discrim(), samediff(), dod()", "typed estimates + confidence intervals"),
+        ("2", "Plan", "power and sample size", "discrim_power(), dprime_sample_size()", "design studies before collecting data"),
+        ("3", "Model", "overdispersion and criteria", "betabin(), samediff(), twoac()", "panel variability + criterion effects"),
+        ("4", "Visualize", "Plotly psychometric + ROC", "plot_psychometric(), plot_roc()", "interactive curves for review"),
     ]
-    for idx, (num, title, body) in enumerate(cards):
+    for idx, (num, title, body, api, output) in enumerate(cards):
         x = M + idx * (card_w + 0.4)
-        add_rect(slide, x, strip_y + 0.62, card_w, 1.45, MIST, line="#d2c9bb", radius=True)
-        add_text(slide, num + ". " + title, x + 0.15, strip_y + 0.82, card_w - 0.3, 0.35, size=16, color=CORAL, bold=True, align=PP_ALIGN.CENTER, margin=0)
-        add_text(slide, body, x + 0.18, strip_y + 1.28, card_w - 0.36, 0.45, size=12.5, color=INK, align=PP_ALIGN.CENTER, margin=0)
+        add_rect(slide, x, strip_y + 0.58, card_w, 3.05, MIST, line="#d2c9bb", radius=True)
+        add_text(slide, num + ". " + title, x + 0.15, strip_y + 0.9, card_w - 0.3, 0.35, size=17, color=CORAL, bold=True, align=PP_ALIGN.CENTER, margin=0)
+        add_text(slide, body, x + 0.42, strip_y + 1.45, card_w - 0.84, 0.6, size=13.3, color=INK, align=PP_ALIGN.CENTER, margin=0)
+        add_text(slide, api, x + 0.42, strip_y + 2.14, card_w - 0.84, 0.38, size=10.7, font=MONO, color=DARK, align=PP_ALIGN.CENTER, margin=0)
+        add_text(slide, output, x + 0.42, strip_y + 2.67, card_w - 0.84, 0.45, size=10.6, color="#4d5a52", align=PP_ALIGN.CENTER, margin=0)
 
 
 def main() -> None:

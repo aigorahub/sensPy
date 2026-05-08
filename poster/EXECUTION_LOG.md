@@ -392,6 +392,34 @@
 
 ---
 
+## 2026-05-07 21:21 EDT
+
+**Batch:** user-directed layout density follow-up
+**Contract status:** complete
+
+**What changed:**
+- Tried to use the installed Gemini CLI with `gemini-3-pro-preview`, which is the current Gemini 3 Pro API model code in Google docs. The CLI is not authenticated: no `GEMINI_API_KEY`, `GOOGLE_GENAI_USE_VERTEXAI`, `GOOGLE_GENAI_USE_GCA`, or settings-file auth is configured.
+- Refused to search unrelated repositories for API keys; layout feedback proceeded locally.
+- `poster/scripts/build_pptx.py`: reduced the header footprint, tightened row placement, enlarged chart regions, converted the top-right metrics to a denser six-cell evidence panel, added a three-card "What changes for sensometricians" row, and filled the bottom workflow cards with concrete API functions and outputs.
+- Regenerated `poster/print_artifacts/senspy-sensometrics-2026-poster.pptx` and `.png`.
+
+**Commands run:**
+- `gemini -m gemini-3-pro-preview ...` -> blocked by missing configured auth.
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `bash poster/build.sh` -> PASS; export remains 4175 x 5906 and poster QA passed.
+- Visual inspection of the regenerated PNG -> PASS; lower-third whitespace is materially reduced and no obvious overlaps are visible.
+
+**Regression attestation:**
+- No sensPy statistical code or tests changed.
+- Poster artifact pipeline still passes.
+- Workspace remains clean except the pre-existing untracked `.agents/` directory after commit.
+
+**Next:**
+1. Commit and push the layout-density follow-up.
+2. Send final handoff.
+
+---
+
 ## Batch 3 Contract: 2026-05-07 20:45 EDT
 
 **Behaviors:**
