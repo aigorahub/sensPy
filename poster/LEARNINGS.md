@@ -14,6 +14,7 @@
 - 2026-05-07: External model review should use an explicitly configured credential or authenticated CLI session; do not search unrelated repositories for API keys.
 - 2026-05-07: For B1 conference posters, tune the type scale for distance first: avoid 10-12 pt secondary details, remove redundant chart annotations before shrinking them, and keep fine print limited to references/QR-support text.
 - 2026-05-07: If a poster still reads too small after a type bump, remove content instead of continuing to squeeze: cut code samples, reduce chart categories, and replace miniature diagrams with large narrative statements.
+- 2026-05-07: Cite sensR explicitly on poster artifacts as the CRAN package with DOI `10.32614/CRAN.package.sensR`; when space allows, also cite Brockhoff & Christensen (2010), DOI `10.1016/j.foodqual.2009.04.003`, for the underlying methods.
 
 ## Review Heuristics
 

@@ -2,10 +2,10 @@
 
 ## Run Digest
 
-- **Last updated:** 2026-05-07 22:17 EDT
+- **Last updated:** 2026-05-07 22:35 EDT
 - **Current phase:** Complete
 - **Active batch:** none
-- **Last completed batch:** User Large-Type Redesign Follow-Up
+- **Last completed batch:** User Card-Fill And Citation Follow-Up
 - **Next exact batch:** none
 - **Active PR:** #1
 - **Docs promoted this run:** `poster/LEARNINGS.md`
@@ -473,6 +473,35 @@
 
 **Next:**
 1. Commit and push the large-type redesign.
+2. Send final handoff.
+
+---
+
+## 2026-05-07 22:35 EDT
+
+**Batch:** user-directed card-fill and citation follow-up
+**Contract status:** complete
+
+**What changed:**
+- Added Bartosz Smulski to the poster author line.
+- Filled dead space inside the evidence, positioning, advanced-model, and takeaway cards with short supporting lines.
+- Added an explicit sensR citation in the references line: CRAN package DOI plus the Brockhoff & Christensen methods DOI.
+- Rebalanced metric card internal spacing after visual inspection showed bottom support text too close to card borders.
+- Regenerated PPTX and PNG print artifacts.
+
+**Commands run:**
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `bash poster/build.sh` -> PASS; export remains 4175 x 5906 and poster QA passed.
+- `poster/.venv/bin/python poster/scripts/qa_check.py` -> PASS.
+- Visual inspection of the regenerated PNG -> PASS after one card-spacing adjustment.
+
+**Regression attestation:**
+- No sensPy statistical code or tests changed.
+- Poster artifact pipeline still passes.
+- Workspace remains clean except the pre-existing untracked `.agents/` directory after commit.
+
+**Next:**
+1. Commit and push the card/citation follow-up.
 2. Send final handoff.
 
 ---
