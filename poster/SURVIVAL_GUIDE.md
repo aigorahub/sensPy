@@ -23,15 +23,15 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 - **User returns:** not specified
 - **Checkpoint expectation:** final poster artifacts in this turn
 - **Time budget:** finite, best effort until complete
-- **Average batch time so far:** ~5m
-- **Batches remaining:** 3 of 4
+- **Average batch time so far:** ~8m
+- **Batches remaining:** 2 of 4
 
 ## Stop Gate
 
-- **Planned batches remaining:** 3
+- **Planned batches remaining:** 2
 - **Stop allowed right now:** no
-- **Why:** poster data, charts, PowerPoint, PNG, and QA are still incomplete
-- **Next required action:** start Batch 2 data and chart pipeline
+- **Why:** PowerPoint, print PNG, final QA, and validation are still incomplete
+- **Next required action:** start Batch 3 poster assembly and export
 
 ## Effort Standard
 
@@ -73,11 +73,11 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 
 **Status:** In progress
 
-**Active batch:** Batch 2: Data And Visual Proof Objects
+**Active batch:** Batch 3: Poster Assembly And Export
 
-**What was just finished:** Batch 1 setup committed, pushed, tagged, and PR #1 opened.
+**What was just finished:** Batch 2 generated repo-backed metrics and five nonblank chart PNGs.
 
-**Single next action:** Add poster requirements, build script, metrics collection, and chart rendering scripts.
+**Single next action:** Add PPTX assembly, PNG export, QA scripts, and extend `poster/build.sh`.
 
 ## Active Compute
 
@@ -85,21 +85,21 @@ No active paid or long-running compute.
 
 ## Next Exact Batch
 
-**Batch:** 2: Data And Visual Proof Objects
+**Batch:** 3: Poster Assembly And Export
 
 **Scope:**
-- Add a self-contained poster build environment.
-- Collect repo-backed metrics and write chart data.
-- Render protocol coverage, psychometric, validation, ROC, and architecture charts.
+- Build a B1 one-slide PowerPoint poster.
+- Export a 150 DPI PNG via LibreOffice and Poppler.
+- Add QA checks for dimensions, generated assets, and placeholder text.
 
 **Acceptance criteria:**
-- [ ] `poster/chart_data/summary.json` reports version, protocol counts, and >=740 test functions.
-- [ ] `poster/charts/*.png` files are generated and nonblank.
-- [ ] `bash poster/build.sh` reaches chart rendering.
+- [ ] `poster/print_artifacts/senspy-sensometrics-2026-poster.pptx` exists.
+- [ ] `poster/print_artifacts/senspy-sensometrics-2026-poster.png` exists at print dimensions.
+- [ ] Rendered PNG is visually inspected.
 
-**Risk:** Dependency installation must stay isolated under `poster/.venv`.
+**Risk:** LibreOffice export may shift text or fonts, so inspect the actual rasterized PNG.
 
-**Rollback tag:** `elves/pre-batch-2`
+**Rollback tag:** `elves/pre-batch-3`
 
 ## Tool Configuration
 

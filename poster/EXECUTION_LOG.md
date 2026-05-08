@@ -2,11 +2,11 @@
 
 ## Run Digest
 
-- **Last updated:** 2026-05-07 20:35 EDT
+- **Last updated:** 2026-05-07 20:44 EDT
 - **Current phase:** In progress
-- **Active batch:** Batch 2: Data And Visual Proof Objects
-- **Last completed batch:** Batch 1: Session Setup And Poster Story
-- **Next exact batch:** Batch 2: Data And Visual Proof Objects
+- **Active batch:** Batch 3: Poster Assembly And Export
+- **Last completed batch:** Batch 2: Data And Visual Proof Objects
+- **Next exact batch:** Batch 3: Poster Assembly And Export
 - **Active PR:** #1
 - **Docs promoted this run:** `poster/LEARNINGS.md`
 
@@ -134,6 +134,100 @@
 **Next:**
 1. Start Batch 2: add poster requirements, build script, metrics collection, and chart rendering.
 2. Generate chart data and chart PNGs from repo-backed metrics.
+
+---
+
+## 2026-05-07 20:44 EDT
+
+**Batch:** 2: Data And Visual Proof Objects
+**Contract status:** all criteria met
+
+**Timing:**
+- Implement: 7m | Validate: 4m | Review: 1m | Total: 12m
+- Session elapsed: ~20m | Budget remaining: enough to continue planned batches
+
+**What changed:**
+- `poster/requirements.txt`: added isolated poster dependencies.
+- `poster/build.sh`: added venv setup and metrics/chart render steps.
+- `poster/scripts/collect_metrics.py`: collects package, protocol, API, dataclass, fixture, and test inventory data.
+- `poster/scripts/render_charts.py`: renders protocol coverage, psychometric curves, test inventory, ROC bridge, and architecture pipeline charts.
+- `poster/chart_data/*`: generated repo-backed chart data.
+- `poster/charts/*`: generated chart PNG proof objects.
+- `poster/assets/qr-senspy-github.png`: generated QR code for the sensPy repository.
+
+**Commands run:**
+- `bash poster/build.sh` -> PASS through metrics and chart rendering.
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `file poster/chart_data poster/charts poster/assets ...` -> all expected data/image files present.
+- `poster/.venv/bin/python ... ImageStat` -> all chart PNGs nonblank by grayscale standard deviation.
+
+**Test results:**
+- Lint: PASS (`compileall`).
+- Typecheck: N/A.
+- Build: PASS for Batch 2 scope (metrics + charts).
+- Tests: N/A for package tests; executable baseline deferred to Batch 4.
+- E2E: N/A.
+- Smoke: PASS for chart nonblank check.
+
+**Review findings:**
+- _No findings_ from local review. PR bots/checks still in progress.
+
+**Decisions made:**
+- Counted "740+ automated tests" as AST-level test functions and also recorded 825 estimated collected pytest cases, so the poster can state the conservative abstract claim while preserving the richer validation fact in data.
+- Kept Batch 2 `build.sh` independently shippable by stopping at chart rendering; Batch 3 will extend the same script to PPTX/export/QA.
+
+**Process adjustments:**
+- none
+
+**Docs:**
+- Impacted: poster build docs.
+- Updated: execution log and survival guide.
+- Promoted: no new durable lessons beyond existing venv/export notes.
+- Deferred: poster README until final artifact paths are known.
+
+**Regression attestation:**
+- Cumulative diff: `git diff main...HEAD --stat` shows additive poster docs/scripts/generated chart assets plus `.gitignore`.
+- Files outside batch scope: `.gitignore` only, from Batch 1.
+- Shared surfaces modified: none in package code.
+- Consumers verified: N/A; no existing runtime imports changed.
+- Test baseline: 740 test functions estimated at session start; no tests deleted or modified.
+- Confidence: HIGH, all Batch 2 changes are additive under `poster/` and generated metrics match repo files.
+
+**Commit:** pending
+**Rollback tag:** `elves/pre-batch-2`
+
+**Next:**
+1. Start Batch 3: add PPTX assembler, export script, and QA.
+2. Run full poster build and visually inspect the PNG.
+
+---
+
+## Batch 3 Contract: 2026-05-07 20:45 EDT
+
+**Behaviors:**
+- Assemble a B1 portrait PPTX poster from the abstract, metrics, and chart assets.
+- Export the PPTX to a 150 DPI PNG.
+- Add QA checks that fail on missing artifacts, wrong dimensions, blank images, or placeholder text.
+
+**Build on:**
+- Batch 2 chart assets in `poster/charts/`.
+- Reference poster dimensions and export pattern from the CD poster.
+- `python-pptx`, LibreOffice `soffice`, and Poppler `pdftoppm`.
+
+**Acceptance criteria:**
+- [ ] `poster/print_artifacts/senspy-sensometrics-2026-poster.pptx` exists.
+- [ ] `poster/print_artifacts/senspy-sensometrics-2026-poster.png` exists and is approximately 4175 x 5906 px.
+- [ ] `poster/scripts/qa_check.py` passes.
+- [ ] Rendered PNG is visually inspected for nonblank charts and no obvious overlap.
+
+**Blast radius:**
+- `poster/*` (new artifact-generation tooling and output), additive.
+- Risk: medium, export can alter layout even if PPTX generation succeeds.
+
+**Pre-implementation survey:**
+- `cd-database-proto/poster/scripts/export_png.py` -> known-good LibreOffice to PDF to PNG flow.
+- `poster/charts/*.png` -> five chart assets available for placement.
+- `poster/chart_data/summary.json` -> headline metrics for poster callouts.
 
 ---
 

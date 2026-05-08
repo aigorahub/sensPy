@@ -1,0 +1,240 @@
+"""Collect repo-backed metrics for the sensPy Sensometrics poster."""
+
+from __future__ import annotations
+
+import ast
+import csv
+import json
+import tomllib
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+POSTER = ROOT / "poster"
+CHART_DATA = POSTER / "chart_data"
+ASSETS = POSTER / "assets"
+CHART_DATA.mkdir(parents=True, exist_ok=True)
+ASSETS.mkdir(parents=True, exist_ok=True)
+
+PROTOCOL_GUESS = {
+    "duotrio": 0.5,
+    "triangle": 1 / 3,
+    "twoafc": 0.5,
+    "threeafc": 1 / 3,
+    "tetrad": 1 / 3,
+    "hexad": 0.1,
+    "twofive": 0.1,
+    "twofivef": 0.4,
+}
+
+DISPLAY_NAMES = {
+    "duotrio": "Duo-trio",
+    "triangle": "Triangle",
+    "twoafc": "2-AFC",
+    "threeafc": "3-AFC",
+    "tetrad": "Tetrad",
+    "hexad": "Hexad",
+    "twofive": "2-out-of-5",
+    "twofivef": "2-out-of-5F",
+}
+
+
+def parse_protocols() -> list[str]:
+    tree = ast.parse((ROOT / "senspy" / "core" / "types.py").read_text())
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef) and node.name == "Protocol":
+            protocols = []
+            for stmt in node.body:
+                if isinstance(stmt, ast.Assign) and isinstance(stmt.value, ast.Constant):
+                    if isinstance(stmt.value.value, str):
+                        protocols.append(stmt.value.value)
+            return protocols
+    raise RuntimeError("Protocol enum not found")
+
+
+def parse_double_protocols() -> list[str]:
+    tree = ast.parse((ROOT / "senspy" / "links" / "double.py").read_text())
+    names: list[str] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef):
+            if node.name.startswith("double_") and node.name.endswith("_link"):
+                names.append(node.name.removeprefix("double_").removesuffix("_link"))
+    return sorted(names)
+
+
+def estimate_pytest_items(node: ast.FunctionDef) -> int:
+    multiplier = 1
+    for dec in node.decorator_list:
+        if not isinstance(dec, ast.Call):
+            continue
+        func = dec.func
+        if isinstance(func, ast.Attribute) and func.attr == "parametrize":
+            if len(dec.args) < 2:
+                continue
+            try:
+                values = ast.literal_eval(dec.args[1])
+            except Exception:
+                continue
+            try:
+                multiplier *= len(values)
+            except TypeError:
+                pass
+    return multiplier
+
+
+def test_inventory() -> tuple[list[dict[str, object]], int, int]:
+    rows: list[dict[str, object]] = []
+    total_functions = 0
+    total_items = 0
+
+    for path in sorted((ROOT / "tests").glob("test_*.py")):
+        tree = ast.parse(path.read_text())
+        functions = 0
+        estimated = 0
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef) and node.name.startswith("test_"):
+                functions += 1
+                estimated += estimate_pytest_items(node)
+        total_functions += functions
+        total_items += estimated
+        category = path.stem.removeprefix("test_").replace("_", " ")
+        rows.append(
+            {
+                "file": path.name,
+                "category": category,
+                "test_functions": functions,
+                "estimated_collected_items": estimated,
+            }
+        )
+
+    return rows, total_functions, total_items
+
+
+def exported_api_count() -> tuple[int, list[str]]:
+    tree = ast.parse((ROOT / "senspy" / "__init__.py").read_text())
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id == "__all__":
+                    values = ast.literal_eval(node.value)
+                    return len(values), values
+    return 0, []
+
+
+def dataclass_inventory() -> list[str]:
+    names: list[str] = []
+    for path in sorted((ROOT / "senspy").rglob("*.py")):
+        tree = ast.parse(path.read_text())
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.ClassDef):
+                continue
+            for dec in node.decorator_list:
+                if isinstance(dec, ast.Name) and dec.id == "dataclass":
+                    names.append(node.name)
+                elif isinstance(dec, ast.Call) and isinstance(dec.func, ast.Name):
+                    if dec.func.id == "dataclass":
+                        names.append(node.name)
+    return sorted(set(names))
+
+
+def write_protocol_coverage(protocols: list[str], doubles: list[str]) -> None:
+    double_map = {
+        "twoafc": "twoafc",
+        "duotrio": "duotrio",
+        "triangle": "triangle",
+        "threeafc": "threeafc",
+        "tetrad": "tetrad",
+    }
+    with (CHART_DATA / "protocol_coverage.csv").open("w", newline="") as f:
+        writer = csv.DictWriter(
+            f, fieldnames=["protocol", "display", "single", "double", "p_guess"]
+        )
+        writer.writeheader()
+        for protocol in protocols:
+            writer.writerow(
+                {
+                    "protocol": protocol,
+                    "display": DISPLAY_NAMES.get(protocol, protocol),
+                    "single": 1,
+                    "double": 1 if double_map.get(protocol) in doubles else 0,
+                    "p_guess": round(PROTOCOL_GUESS.get(protocol, 0.0), 4),
+                }
+            )
+
+
+def write_test_inventory(rows: list[dict[str, object]]) -> None:
+    with (CHART_DATA / "test_inventory.csv").open("w", newline="") as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=[
+                "file",
+                "category",
+                "test_functions",
+                "estimated_collected_items",
+            ],
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def make_qr() -> None:
+    try:
+        import qrcode
+    except Exception:
+        return
+
+    qr = qrcode.QRCode(border=2, box_size=12)
+    qr.add_data("https://github.com/aigorahub/sensPy")
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="#17291f", back_color="#f4f0e6")
+    img.save(ASSETS / "qr-senspy-github.png")
+
+
+def main() -> None:
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
+    package = pyproject["tool"]["poetry"]
+
+    protocols = parse_protocols()
+    doubles = parse_double_protocols()
+    tests, test_functions, estimated_items = test_inventory()
+    api_count, api_exports = exported_api_count()
+    dataclasses = dataclass_inventory()
+
+    fixture_path = ROOT / "tests" / "fixtures" / "golden_sensr.json"
+    fixture = json.loads(fixture_path.read_text())
+    metadata = fixture.get("metadata", {})
+
+    write_protocol_coverage(protocols, doubles)
+    write_test_inventory(tests)
+    make_qr()
+
+    summary = {
+        "package": package["name"],
+        "version": package["version"],
+        "description": package["description"],
+        "sensr_version": metadata.get("sensR_version", "unknown"),
+        "r_version": metadata.get("R_version", "unknown"),
+        "single_protocol_count": len(protocols),
+        "double_protocol_count": len(doubles),
+        "total_protocol_variants": len(protocols) + len(doubles),
+        "protocols": protocols,
+        "double_protocols": doubles,
+        "test_functions": test_functions,
+        "estimated_pytest_items": estimated_items,
+        "api_export_count": api_count,
+        "api_exports": api_exports,
+        "dataclass_count": len(dataclasses),
+        "dataclasses": dataclasses,
+        "poster_url": "https://github.com/aigorahub/sensPy",
+    }
+
+    (CHART_DATA / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    print(
+        "[collect] "
+        f"{summary['total_protocol_variants']} variants, "
+        f"{test_functions} test functions, "
+        f"{estimated_items} estimated pytest items"
+    )
+
+
+if __name__ == "__main__":
+    main()

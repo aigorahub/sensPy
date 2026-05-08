@@ -9,10 +9,10 @@
   "execution_log_path": "poster/EXECUTION_LOG.md",
   "pr_number": 1,
   "continuation_guard": {
-    "remaining_batches": 3,
+    "remaining_batches": 2,
     "stop_allowed": false,
     "checkpoint_is_stop": false,
-    "next_required_action": "Start Batch 2 data and chart pipeline"
+    "next_required_action": "Start Batch 3 poster assembly and export"
   },
   "test_baseline": {
     "passed": null,
@@ -22,9 +22,9 @@
     "reason": "Global python lacks pytest; poster venv will capture executable baseline later"
   },
   "current_batch": {
-    "id": 1,
-    "name": "Session Setup And Poster Story",
-    "status": "complete"
+    "id": 3,
+    "name": "Poster Assembly And Export",
+    "status": "pending"
   },
   "batches": [
     {
@@ -39,19 +39,19 @@
     {
       "id": 2,
       "name": "Data And Visual Proof Objects",
-      "status": "in_progress",
-      "commit": null,
+      "status": "complete",
+      "commit": "pending",
       "rollback_tag": "elves/pre-batch-2",
       "started_at": "2026-05-07T20:35:00-04:00",
-      "completed_at": null
+      "completed_at": "2026-05-07T20:43:00-04:00"
     },
     {
       "id": 3,
       "name": "Poster Assembly And Export",
-      "status": "pending",
+      "status": "in_progress",
       "commit": null,
       "rollback_tag": "elves/pre-batch-3",
-      "started_at": null,
+      "started_at": "2026-05-07T20:44:00-04:00",
       "completed_at": null
     },
     {
