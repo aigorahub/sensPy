@@ -195,6 +195,26 @@
       "summary": "Use package Protocol.p_guess and remove hardcoded double-protocol mapping",
       "disposition": "fixed",
       "fix_commit": "pending"
+    },
+    {
+      "id": 3205615510,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 4,
+      "summary": "Use imported Protocol enum directly for protocol extraction",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205615527,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 4,
+      "summary": "Discover test files recursively with rglob",
+      "disposition": "fixed",
+      "fix_commit": "pending"
     }
   ]
 }

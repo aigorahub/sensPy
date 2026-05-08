@@ -54,16 +54,7 @@ def display_name(protocol: str) -> str:
 
 
 def parse_protocols() -> list[str]:
-    tree = ast.parse((ROOT / "senspy" / "core" / "types.py").read_text())
-    for node in ast.walk(tree):
-        if isinstance(node, ast.ClassDef) and node.name == "Protocol":
-            protocols = []
-            for stmt in node.body:
-                if isinstance(stmt, ast.Assign) and isinstance(stmt.value, ast.Constant):
-                    if isinstance(stmt.value.value, str):
-                        protocols.append(stmt.value.value)
-            return protocols
-    raise RuntimeError("Protocol enum not found")
+    return [protocol.value for protocol in Protocol]
 
 
 def parse_double_protocols() -> list[str]:
@@ -109,7 +100,7 @@ def test_inventory() -> tuple[list[dict[str, object]], int, int]:
     total_functions = 0
     total_items = 0
 
-    for path in sorted((ROOT / "tests").glob("test_*.py")):
+    for path in sorted((ROOT / "tests").rglob("test_*.py")):
         tree = ast.parse(path.read_text())
         functions = 0
         estimated = 0

@@ -367,10 +367,11 @@
 ## 2026-05-07 21:04 EDT
 
 **Batch:** 4 review follow-up
-**Contract status:** follow-up comments addressed
+**Contract status:** follow-up comments addressed, including 21:08 review cycle
 
 **What changed:**
 - `poster/scripts/collect_metrics.py`: uses `Protocol(protocol).p_guess` as the source of truth for guessing probabilities, removes the local double-protocol mapping, warns on uncountable static pytest parametrizations, and detects qualified dataclass decorators.
+- `poster/scripts/collect_metrics.py`: now also extracts protocol names directly from the imported `Protocol` enum and discovers tests recursively with `rglob`.
 - `poster/LEARNINGS.md`, `.elves-session.json`, and this log record the final review cycle.
 
 **Commands run:**
@@ -381,6 +382,8 @@
 - [Medium] Static pytest estimator silently undercounted non-literal parametrizations: fixed with warnings.
 - [Medium] Dataclass inventory missed qualified decorators: fixed with `ast.Attribute` support.
 - [Medium] Protocol coverage used stale-prone local maps: fixed by reading `Protocol.p_guess` and comparing double protocol names directly.
+- [Medium] Protocol extraction still parsed AST despite importing `Protocol`: fixed by returning values from the enum.
+- [Medium] Test discovery only covered top-level test files: fixed with recursive `rglob`.
 
 **Next:**
 1. Commit and push the follow-up.
