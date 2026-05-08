@@ -28,3 +28,10 @@ htmlcov/
 .venv/
 
 docs/sensometrics-2026-audit.md
+
+# Poster build scratch
+poster/.venv/
+poster/print_artifacts/.libreoffice-font-home/
+poster/print_artifacts/.libreoffice-user/
+poster/print_artifacts/*.pdf
+poster/print_artifacts/*_tmp-*.png

@@ -1,0 +1,220 @@
+{
+  "session_id": "elves-2026-05-07-senspy-sensometrics-poster",
+  "version": "1.9.0",
+  "status": "complete",
+  "branch": "codex/senspy-sensometrics-poster",
+  "plan_path": "poster/PLAN.md",
+  "survival_guide_path": "poster/SURVIVAL_GUIDE.md",
+  "learnings_path": "poster/LEARNINGS.md",
+  "execution_log_path": "poster/EXECUTION_LOG.md",
+  "pr_number": 1,
+  "continuation_guard": {
+    "remaining_batches": 0,
+    "stop_allowed": true,
+    "checkpoint_is_stop": false,
+    "next_required_action": "Final response with PR and artifact handoff"
+  },
+  "test_baseline": {
+    "passed": 842,
+    "total": 851,
+    "skipped": null,
+    "xfailed": 9,
+    "status": "passed",
+    "reason": "poster/.venv/bin/python -m pytest -q completed successfully"
+  },
+  "current_batch": {
+    "id": 4,
+    "name": "QA, Validation, And Handoff",
+    "status": "complete"
+  },
+  "batches": [
+    {
+      "id": 1,
+      "name": "Session Setup And Poster Story",
+      "status": "complete",
+      "commit": "3c17f0f",
+      "rollback_tag": "elves/pre-batch-1",
+      "started_at": "2026-05-07T20:30:00-04:00",
+      "completed_at": "2026-05-07T20:34:00-04:00"
+    },
+    {
+      "id": 2,
+      "name": "Data And Visual Proof Objects",
+      "status": "complete",
+      "commit": "cfc38d5",
+      "rollback_tag": "elves/pre-batch-2",
+      "started_at": "2026-05-07T20:35:00-04:00",
+      "completed_at": "2026-05-07T20:43:00-04:00"
+    },
+    {
+      "id": 3,
+      "name": "Poster Assembly And Export",
+      "status": "complete",
+      "commit": "33115e4",
+      "rollback_tag": "elves/pre-batch-3",
+      "started_at": "2026-05-07T20:44:00-04:00",
+      "completed_at": "2026-05-07T20:49:00-04:00"
+    },
+    {
+      "id": 4,
+      "name": "QA, Validation, And Handoff",
+      "status": "complete",
+      "commit": "pending",
+      "rollback_tag": "elves/pre-batch-4",
+      "started_at": "2026-05-07T20:50:00-04:00",
+      "completed_at": "2026-05-07T20:58:00-04:00"
+    }
+  ],
+  "review_comments": [
+    {
+      "id": 3205483735,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 3,
+      "cycle": 1,
+      "summary": "Protocol count discrepancy between poster plan and README table",
+      "disposition": "fixed",
+      "fix_commit": "33115e4"
+    },
+    {
+      "id": 3205483738,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 3,
+      "cycle": 1,
+      "summary": "Absolute local reference poster path in plan",
+      "disposition": "fixed",
+      "fix_commit": "33115e4"
+    },
+    {
+      "id": 3205483752,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 3,
+      "cycle": 1,
+      "summary": "Absolute local Elves skill path in survival guide",
+      "disposition": "fixed",
+      "fix_commit": "33115e4"
+    },
+    {
+      "id": 3205483757,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 3,
+      "cycle": 1,
+      "summary": "Hardcoded Homebrew export tool paths in learnings",
+      "disposition": "fixed",
+      "fix_commit": "33115e4"
+    },
+    {
+      "id": 3205489164,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 3,
+      "cycle": 1,
+      "summary": "Update README test count for consistency",
+      "disposition": "fixed",
+      "fix_commit": "33115e4"
+    },
+    {
+      "id": 3205489224,
+      "type": "review_comment",
+      "source": "copilot",
+      "batch": 3,
+      "cycle": 1,
+      "summary": "Plan referenced scripts and artifacts before they existed",
+      "disposition": "fixed",
+      "fix_commit": "33115e4"
+    },
+    {
+      "id": 3205541289,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 2,
+      "summary": "Add Python 3.10 tomllib fallback with tomli dependency",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205541296,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 2,
+      "summary": "Catch qrcode ImportError specifically and warn",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205541299,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 2,
+      "summary": "Expose LibreOffice subprocess output in export logs",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205541303,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 2,
+      "summary": "Expose Poppler subprocess output in export logs",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205598825,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 3,
+      "summary": "Warn when AST static pytest parametrization estimates cannot be counted",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205598827,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 3,
+      "summary": "Detect qualified dataclass decorators in metrics inventory",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205598831,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 3,
+      "summary": "Use package Protocol.p_guess and remove hardcoded double-protocol mapping",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205615510,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 4,
+      "summary": "Use imported Protocol enum directly for protocol extraction",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205615527,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 4,
+      "summary": "Discover test files recursively with rglob",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    }
+  ]
+}

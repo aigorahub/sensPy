@@ -1,0 +1,24 @@
+file,category,test_functions,estimated_collected_items
+test_anota.py,anota,16,16
+test_betabin.py,betabin,34,34
+test_coverage_discrim.py,coverage discrim,33,39
+test_coverage_dod.py,coverage dod,81,81
+test_coverage_links.py,coverage links,56,84
+test_coverage_power.py,coverage power,41,41
+test_coverage_samediff.py,coverage samediff,15,15
+test_coverage_utils.py,coverage utils,58,58
+test_discrim.py,discrim,29,39
+test_dod.py,dod,49,49
+test_double_links.py,double links,28,40
+test_dprime_tests.py,dprime tests,25,25
+test_links.py,links,21,21
+test_plotting.py,plotting,28,32
+test_power.py,power,30,30
+test_protocol_power.py,protocol power,25,25
+test_roc.py,roc,24,24
+test_samediff.py,samediff,28,28
+test_sensr_validation.py,sensr validation,10,28
+test_simulation.py,simulation,22,29
+test_twoac.py,twoac,45,45
+test_types.py,types,11,11
+test_utils.py,utils,31,31

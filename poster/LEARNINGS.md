@@ -1,0 +1,33 @@
+# Project Learnings
+
+## Repo Conventions
+
+- 2026-05-07: Keep poster work under `poster/` and do not modify `senspy` statistical code for a communications artifact.
+
+## Validation and Tooling
+
+- 2026-05-07: Global `python3` in this environment does not have `pytest`; poster tooling should create and use `poster/.venv`.
+- 2026-05-07: Poster export requires LibreOffice (`soffice`) and Poppler (`pdftoppm`) on PATH, with tool paths overridable in scripts when needed.
+- 2026-05-07: Poster helper scripts should remain Python 3.10-compatible; use `tomli` as the `tomllib` fallback when needed.
+- 2026-05-07: Do not hide converter subprocess output in poster exports; visible LibreOffice and Poppler logs make PR/CI failures easier to diagnose.
+- 2026-05-07: Poster metric collectors should prefer package source-of-truth APIs for protocol facts and warn when static AST fallbacks undercount dynamic pytest parametrizations.
+- 2026-05-07: External model review should use an explicitly configured credential or authenticated CLI session; do not search unrelated repositories for API keys.
+- 2026-05-07: For B1 conference posters, tune the type scale for distance first: avoid 10-12 pt secondary details, remove redundant chart annotations before shrinking them, and keep fine print limited to references/QR-support text.
+- 2026-05-07: If a poster still reads too small after a type bump, remove content instead of continuing to squeeze: cut code samples, reduce chart categories, and replace miniature diagrams with large narrative statements.
+- 2026-05-07: Cite sensR explicitly on poster artifacts as the CRAN package with DOI `10.32614/CRAN.package.sensR`; when space allows, also cite Brockhoff & Christensen (2010), DOI `10.1016/j.foodqual.2009.04.003`, for the underlying methods.
+
+## Review Heuristics
+
+- 2026-05-07: Poster claims should be grounded in repo evidence: README, `pyproject.toml`, `senspy/__init__.py`, tests, and fixture metadata.
+
+## Product and Domain Invariants
+
+- 2026-05-07: sensPy is positioned as a Python port of sensR for Thurstonian sensory discrimination methods, preserving numerical parity while adding Python-native ergonomics.
+
+## Known Traps
+
+- 2026-05-07: The abstract does not include an author list; avoid inventing a full scientific author list beyond conservative Aigora/Sensometrics attribution.
+
+## Retired Learnings
+
+- None yet.
