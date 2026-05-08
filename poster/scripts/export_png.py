@@ -41,11 +41,14 @@ def main() -> None:
     soffice = tool("soffice", "POSTER_SOFFICE")
     pdftoppm = tool("pdftoppm", "POSTER_PDFTOPPM")
     OUT.mkdir(parents=True, exist_ok=True)
+    profile_dir = OUT / ".libreoffice-user"
+    profile_dir.mkdir(parents=True, exist_ok=True)
 
     print("[export] pptx -> pdf")
     subprocess.run(
         [
             soffice,
+            f"-env:UserInstallation={profile_dir.as_uri()}",
             "--headless",
             "--convert-to",
             "pdf",

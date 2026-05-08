@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import csv
+import inspect
 import json
 import re
 import subprocess
@@ -20,6 +21,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from senspy.core.types import Protocol
+from senspy.links import double as double_links
 
 POSTER = ROOT / "poster"
 CHART_DATA = POSTER / "chart_data"
@@ -58,12 +60,10 @@ def parse_protocols() -> list[str]:
 
 
 def parse_double_protocols() -> list[str]:
-    tree = ast.parse((ROOT / "senspy" / "links" / "double.py").read_text())
     names: list[str] = []
-    for node in ast.walk(tree):
-        if isinstance(node, ast.FunctionDef):
-            if node.name.startswith("double_") and node.name.endswith("_link"):
-                names.append(node.name.removeprefix("double_").removesuffix("_link"))
+    for name, _ in inspect.getmembers(double_links, inspect.isfunction):
+        if name.startswith("double_") and name.endswith("_link"):
+            names.append(name.removeprefix("double_").removesuffix("_link"))
     return sorted(names)
 
 
@@ -101,7 +101,7 @@ def test_inventory() -> tuple[list[dict[str, object]], int, int]:
     total_items = 0
 
     for path in sorted((ROOT / "tests").rglob("test_*.py")):
-        tree = ast.parse(path.read_text())
+        tree = ast.parse(path.read_text(encoding="utf-8"))
         functions = 0
         estimated = 0
         for node in ast.walk(tree):
@@ -126,7 +126,7 @@ def test_inventory() -> tuple[list[dict[str, object]], int, int]:
 def pytest_collected_count() -> int | None:
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "pytest", "--collect-only", "-q"],
+            [sys.executable, "-m", "pytest", "--collect-only"],
             cwd=ROOT,
             capture_output=True,
             text=True,
@@ -138,7 +138,7 @@ def pytest_collected_count() -> int | None:
         detail = result.stderr.strip() or result.stdout.strip()
         print(f"[collect] warning: pytest collection failed: {detail}")
         return None
-    match = re.search(r"=+\s+(\d+)\s+tests collected", result.stdout)
+    match = re.search(r"(\d+)\s+tests collected", result.stdout)
     if match:
         return int(match.group(1))
     print("[collect] warning: pytest collection count not found; using AST estimate")
@@ -146,7 +146,7 @@ def pytest_collected_count() -> int | None:
 
 
 def exported_api_count() -> tuple[int, list[str]]:
-    tree = ast.parse((ROOT / "senspy" / "__init__.py").read_text())
+    tree = ast.parse((ROOT / "senspy" / "__init__.py").read_text(encoding="utf-8"))
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign):
             for target in node.targets:
@@ -159,7 +159,7 @@ def exported_api_count() -> tuple[int, list[str]]:
 def dataclass_inventory() -> list[str]:
     names: list[str] = []
     for path in sorted((ROOT / "senspy").rglob("*.py")):
-        tree = ast.parse(path.read_text())
+        tree = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
             if not isinstance(node, ast.ClassDef):
                 continue
@@ -222,7 +222,7 @@ def make_qr() -> None:
 
 
 def main() -> None:
-    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     package = pyproject["tool"]["poetry"]
 
     protocols = parse_protocols()
@@ -233,7 +233,7 @@ def main() -> None:
     dataclasses = dataclass_inventory()
 
     fixture_path = ROOT / "tests" / "fixtures" / "golden_sensr.json"
-    fixture = json.loads(fixture_path.read_text())
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
     metadata = fixture.get("metadata", {})
 
     write_protocol_coverage(protocols, doubles)

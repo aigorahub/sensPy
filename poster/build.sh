@@ -7,9 +7,17 @@ POSTER_DIR="$ROOT_DIR/poster"
 if [[ -z "${PYTHON_BIN:-}" ]]; then
   if command -v python3.12 >/dev/null 2>&1; then
     PYTHON_BIN="$(command -v python3.12)"
-  else
+  elif command -v python3 >/dev/null 2>&1; then
     PYTHON_BIN="$(command -v python3)"
+  else
+    echo "Error: python3.12 or python3 not found on PATH." >&2
+    exit 1
   fi
+fi
+
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  echo "Error: PYTHON_BIN is not executable: $PYTHON_BIN" >&2
+  exit 1
 fi
 
 cd "$ROOT_DIR"

@@ -529,7 +529,7 @@ def build_conclusion(slide):
 
 
 def main() -> None:
-    summary = json.loads((CHART_DATA / "summary.json").read_text())
+    summary = json.loads((CHART_DATA / "summary.json").read_text(encoding="utf-8"))
     prs = Presentation()
     prs.slide_width = Inches(SLIDE_W)
     prs.slide_height = Inches(SLIDE_H)

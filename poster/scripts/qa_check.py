@@ -44,7 +44,7 @@ def check_summary() -> None:
     summary_path = CHART_DATA / "summary.json"
     if not summary_path.exists():
         fail("missing chart_data/summary.json")
-    summary = json.loads(summary_path.read_text())
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
     expected = {
         "version": "0.2.0",
         "single_protocol_count": 8,
