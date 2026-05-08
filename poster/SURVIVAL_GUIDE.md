@@ -23,15 +23,15 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 - **User returns:** not specified
 - **Checkpoint expectation:** final poster artifacts in this turn
 - **Time budget:** finite, best effort until complete
-- **Average batch time so far:** none yet
-- **Batches remaining:** 4 of 4
+- **Average batch time so far:** ~5m
+- **Batches remaining:** 3 of 4
 
 ## Stop Gate
 
-- **Planned batches remaining:** 4
+- **Planned batches remaining:** 3
 - **Stop allowed right now:** no
-- **Why:** poster artifacts do not exist yet
-- **Next required action:** complete Batch 1 setup and begin poster pipeline implementation
+- **Why:** poster data, charts, PowerPoint, PNG, and QA are still incomplete
+- **Next required action:** start Batch 2 data and chart pipeline
 
 ## Effort Standard
 
@@ -63,7 +63,7 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 - [x] Learnings file initialized
 - [x] Execution log initialized with batch breakdown and preflight notes
 - [x] Branch created or confirmed
-- [ ] PR opened or existing PR recorded
+- [x] PR opened or existing PR recorded
 - [x] Preflight run and critical failures cleared
 - [x] Run mode, return time, and non-negotiables recorded
 - [x] Stop Gate initialized with `Stop allowed right now: no`
@@ -73,11 +73,11 @@ Build a print-ready Sensometrics 2026 poster for sensPy using a recoverable Elve
 
 **Status:** In progress
 
-**Active batch:** Batch 1: Session Setup And Poster Story
+**Active batch:** Batch 2: Data And Visual Proof Objects
 
-**What was just finished:** Branch created and Elves session artifacts started.
+**What was just finished:** Batch 1 setup committed, pushed, tagged, and PR #1 opened.
 
-**Single next action:** Commit Batch 1 setup, then implement Batch 2 data and chart pipeline.
+**Single next action:** Add poster requirements, build script, metrics collection, and chart rendering scripts.
 
 ## Active Compute
 
@@ -85,21 +85,21 @@ No active paid or long-running compute.
 
 ## Next Exact Batch
 
-**Batch:** 1: Session Setup And Poster Story
+**Batch:** 2: Data And Visual Proof Objects
 
 **Scope:**
-- Create Elves session docs and structured state.
-- Record poster story, evidence, and constraints.
-- Stage poster build directory without touching sensPy statistical code.
+- Add a self-contained poster build environment.
+- Collect repo-backed metrics and write chart data.
+- Render protocol coverage, psychometric, validation, ROC, and architecture charts.
 
 **Acceptance criteria:**
-- [ ] Session docs exist and contain the finite run plan.
-- [ ] `.elves-session.json` exists and records the batch plan.
-- [ ] Git status shows only intentional poster/session files plus pre-existing `.agents/`.
+- [ ] `poster/chart_data/summary.json` reports version, protocol counts, and >=740 test functions.
+- [ ] `poster/charts/*.png` files are generated and nonblank.
+- [ ] `bash poster/build.sh` reaches chart rendering.
 
-**Risk:** The author line is not provided in the abstract; use conservative Aigora/Sensometrics attribution and document the decision.
+**Risk:** Dependency installation must stay isolated under `poster/.venv`.
 
-**Rollback tag:** `elves/pre-batch-1`
+**Rollback tag:** `elves/pre-batch-2`
 
 ## Tool Configuration
 
@@ -124,7 +124,7 @@ notification: pr-comment
 - **Conventions doc:** `.ai-docs/conventions.md`
 - **Gotchas doc:** `.ai-docs/gotchas.md`
 - **Branch:** `codex/senspy-sensometrics-poster`
-- **PR number:** not created yet
+- **PR number:** #1
 - **Plan hash at session start:** `799508c5f4fcd399a7f3b1cc8447d3db`
 
 ## After Any Compaction
