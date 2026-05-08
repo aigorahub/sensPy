@@ -10,6 +10,7 @@
 - 2026-05-07: Poster export requires LibreOffice (`soffice`) and Poppler (`pdftoppm`) on PATH, with tool paths overridable in scripts when needed.
 - 2026-05-07: Poster helper scripts should remain Python 3.10-compatible; use `tomli` as the `tomllib` fallback when needed.
 - 2026-05-07: Do not hide converter subprocess output in poster exports; visible LibreOffice and Poppler logs make PR/CI failures easier to diagnose.
+- 2026-05-07: Poster metric collectors should prefer package source-of-truth APIs for protocol facts and warn when static AST fallbacks undercount dynamic pytest parametrizations.
 
 ## Review Heuristics
 

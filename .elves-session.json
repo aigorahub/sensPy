@@ -165,6 +165,36 @@
       "summary": "Expose Poppler subprocess output in export logs",
       "disposition": "fixed",
       "fix_commit": "pending"
+    },
+    {
+      "id": 3205598825,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 3,
+      "summary": "Warn when AST static pytest parametrization estimates cannot be counted",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205598827,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 3,
+      "summary": "Detect qualified dataclass decorators in metrics inventory",
+      "disposition": "fixed",
+      "fix_commit": "pending"
+    },
+    {
+      "id": 3205598831,
+      "type": "review_comment",
+      "source": "gemini-code-assist",
+      "batch": 4,
+      "cycle": 3,
+      "summary": "Use package Protocol.p_guess and remove hardcoded double-protocol mapping",
+      "disposition": "fixed",
+      "fix_commit": "pending"
     }
   ]
 }

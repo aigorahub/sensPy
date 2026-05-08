@@ -364,6 +364,31 @@
 
 ---
 
+## 2026-05-07 21:04 EDT
+
+**Batch:** 4 review follow-up
+**Contract status:** follow-up comments addressed
+
+**What changed:**
+- `poster/scripts/collect_metrics.py`: uses `Protocol(protocol).p_guess` as the source of truth for guessing probabilities, removes the local double-protocol mapping, warns on uncountable static pytest parametrizations, and detects qualified dataclass decorators.
+- `poster/LEARNINGS.md`, `.elves-session.json`, and this log record the final review cycle.
+
+**Commands run:**
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `bash poster/build.sh` -> PASS; five static-estimate warnings emitted for dynamic parametrizations, exact pytest collection still reports 851 items, export remains 4175 x 5906, and poster QA passed.
+
+**Review findings:**
+- [Medium] Static pytest estimator silently undercounted non-literal parametrizations: fixed with warnings.
+- [Medium] Dataclass inventory missed qualified decorators: fixed with `ast.Attribute` support.
+- [Medium] Protocol coverage used stale-prone local maps: fixed by reading `Protocol.p_guess` and comparing double protocol names directly.
+
+**Next:**
+1. Commit and push the follow-up.
+2. Poll PR checks/comments once more.
+3. Send final handoff.
+
+---
+
 ## Batch 3 Contract: 2026-05-07 20:45 EDT
 
 **Behaviors:**

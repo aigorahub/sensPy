@@ -16,22 +16,16 @@ except ImportError:  # pragma: no cover - Python 3.10 poster builds
     import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from senspy.core.types import Protocol
+
 POSTER = ROOT / "poster"
 CHART_DATA = POSTER / "chart_data"
 ASSETS = POSTER / "assets"
 CHART_DATA.mkdir(parents=True, exist_ok=True)
 ASSETS.mkdir(parents=True, exist_ok=True)
-
-PROTOCOL_GUESS = {
-    "duotrio": 0.5,
-    "triangle": 1 / 3,
-    "twoafc": 0.5,
-    "threeafc": 1 / 3,
-    "tetrad": 1 / 3,
-    "hexad": 0.1,
-    "twofive": 0.1,
-    "twofivef": 0.4,
-}
 
 DISPLAY_NAMES = {
     "duotrio": "Duo-trio",
@@ -43,6 +37,20 @@ DISPLAY_NAMES = {
     "twofive": "2-out-of-5",
     "twofivef": "2-out-of-5F",
 }
+
+
+def protocol_guess(protocol: str) -> float:
+    try:
+        return Protocol(protocol).p_guess
+    except ValueError:
+        print(f"[collect] warning: unknown protocol {protocol!r}; using p_guess=0")
+        return 0.0
+
+
+def display_name(protocol: str) -> str:
+    if protocol not in DISPLAY_NAMES:
+        print(f"[collect] warning: missing display name for protocol {protocol!r}")
+    return DISPLAY_NAMES.get(protocol, protocol)
 
 
 def parse_protocols() -> list[str]:
@@ -68,7 +76,7 @@ def parse_double_protocols() -> list[str]:
     return sorted(names)
 
 
-def estimate_pytest_items(node: ast.FunctionDef) -> int:
+def estimate_pytest_items(node: ast.FunctionDef, source: Path) -> int:
     multiplier = 1
     for dec in node.decorator_list:
         if not isinstance(dec, ast.Call):
@@ -79,11 +87,19 @@ def estimate_pytest_items(node: ast.FunctionDef) -> int:
                 continue
             try:
                 values = ast.literal_eval(dec.args[1])
-            except Exception:
+            except (TypeError, ValueError):
+                print(
+                    "[collect] warning: cannot statically count "
+                    f"{source.name}:{node.lineno} parametrization; using 1"
+                )
                 continue
             try:
                 multiplier *= len(values)
             except TypeError:
+                print(
+                    "[collect] warning: parametrization has no length in "
+                    f"{source.name}:{node.lineno}; using 1"
+                )
                 pass
     return multiplier
 
@@ -100,7 +116,7 @@ def test_inventory() -> tuple[list[dict[str, object]], int, int]:
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef) and node.name.startswith("test_"):
                 functions += 1
-                estimated += estimate_pytest_items(node)
+                estimated += estimate_pytest_items(node, path)
         total_functions += functions
         total_items += estimated
         category = path.stem.removeprefix("test_").replace("_", " ")
@@ -157,22 +173,17 @@ def dataclass_inventory() -> list[str]:
             if not isinstance(node, ast.ClassDef):
                 continue
             for dec in node.decorator_list:
-                if isinstance(dec, ast.Name) and dec.id == "dataclass":
+                target = dec.func if isinstance(dec, ast.Call) else dec
+                if isinstance(target, ast.Name) and target.id == "dataclass":
                     names.append(node.name)
-                elif isinstance(dec, ast.Call) and isinstance(dec.func, ast.Name):
-                    if dec.func.id == "dataclass":
-                        names.append(node.name)
+                    break
+                if isinstance(target, ast.Attribute) and target.attr == "dataclass":
+                    names.append(node.name)
+                    break
     return sorted(set(names))
 
 
 def write_protocol_coverage(protocols: list[str], doubles: list[str]) -> None:
-    double_map = {
-        "twoafc": "twoafc",
-        "duotrio": "duotrio",
-        "triangle": "triangle",
-        "threeafc": "threeafc",
-        "tetrad": "tetrad",
-    }
     with (CHART_DATA / "protocol_coverage.csv").open("w", newline="") as f:
         writer = csv.DictWriter(
             f, fieldnames=["protocol", "display", "single", "double", "p_guess"]
@@ -182,10 +193,10 @@ def write_protocol_coverage(protocols: list[str], doubles: list[str]) -> None:
             writer.writerow(
                 {
                     "protocol": protocol,
-                    "display": DISPLAY_NAMES.get(protocol, protocol),
+                    "display": display_name(protocol),
                     "single": 1,
-                    "double": 1 if double_map.get(protocol) in doubles else 0,
-                    "p_guess": round(PROTOCOL_GUESS.get(protocol, 0.0), 4),
+                    "double": 1 if protocol in doubles else 0,
+                    "p_guess": round(protocol_guess(protocol), 4),
                 }
             )
 
