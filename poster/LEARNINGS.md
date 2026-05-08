@@ -12,6 +12,7 @@
 - 2026-05-07: Do not hide converter subprocess output in poster exports; visible LibreOffice and Poppler logs make PR/CI failures easier to diagnose.
 - 2026-05-07: Poster metric collectors should prefer package source-of-truth APIs for protocol facts and warn when static AST fallbacks undercount dynamic pytest parametrizations.
 - 2026-05-07: External model review should use an explicitly configured credential or authenticated CLI session; do not search unrelated repositories for API keys.
+- 2026-05-07: For B1 conference posters, tune the type scale for distance first: avoid 10-12 pt secondary details, remove redundant chart annotations before shrinking them, and keep fine print limited to references/QR-support text.
 
 ## Review Heuristics
 

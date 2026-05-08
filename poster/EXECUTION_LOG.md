@@ -2,10 +2,10 @@
 
 ## Run Digest
 
-- **Last updated:** 2026-05-07 20:58 EDT
+- **Last updated:** 2026-05-07 22:00 EDT
 - **Current phase:** Complete
 - **Active batch:** none
-- **Last completed batch:** Batch 4: QA, Validation, And Handoff
+- **Last completed batch:** User Typography Follow-Up
 - **Next exact batch:** none
 - **Active PR:** #1
 - **Docs promoted this run:** `poster/LEARNINGS.md`
@@ -416,6 +416,34 @@
 
 **Next:**
 1. Commit and push the layout-density follow-up.
+2. Send final handoff.
+
+---
+
+## 2026-05-07 22:00 EDT
+
+**Batch:** user-directed distance-readability follow-up
+**Contract status:** complete
+
+**What changed:**
+- Raised the poster text floor across PowerPoint text boxes, metric sublabels, chart typography, captions, code samples, and workflow card details.
+- Removed redundant fine print from the protocol coverage chart and removed the validation-total overlay from the validation chart to avoid large-type collisions.
+- Shortened the Python code sample and enlarged secondary labels that still read like screen UI rather than print poster text.
+- Enlarged the ROC panel placement and regenerated all chart and print artifacts.
+
+**Commands run:**
+- `poster/.venv/bin/python -m compileall -q poster/scripts` -> PASS.
+- `bash poster/build.sh` -> PASS; export remains 4175 x 5906 and poster QA passed.
+- `poster/.venv/bin/python poster/scripts/qa_check.py` -> PASS.
+- Visual inspection of the regenerated PNG -> PASS; no obvious text collisions remain.
+
+**Regression attestation:**
+- No sensPy statistical code or tests changed.
+- Poster artifact pipeline still passes.
+- Workspace remains clean except the pre-existing untracked `.agents/` directory after commit.
+
+**Next:**
+1. Commit and push the readability follow-up.
 2. Send final handoff.
 
 ---
