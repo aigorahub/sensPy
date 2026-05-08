@@ -14,6 +14,7 @@ dist/
 
 # Misc
 .DS_Store
+.agents/
 
 # Build outputs
 site/
