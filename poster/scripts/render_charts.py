@@ -65,25 +65,26 @@ def save(fig: plt.Figure, name: str) -> None:
 
 def protocol_coverage() -> None:
     rows = read_csv(CHART_DATA / "protocol_coverage.csv")
-    fig, ax = plt.subplots(figsize=(7.2, 4.8))
-    ax.set_xlim(-0.6, 2.2)
+    fig, ax = plt.subplots(figsize=(7.8, 4.8))
+    ax.set_xlim(-0.9, 3.0)
     ax.set_ylim(-0.8, len(rows) - 0.2)
     ax.axis("off")
 
-    ax.text(0.55, len(rows) - 0.05, "single", ha="center", va="bottom", fontsize=22)
-    ax.text(1.55, len(rows) - 0.05, "double", ha="center", va="bottom", fontsize=22)
+    box_centers = [0.95, 1.85]
+    ax.text(box_centers[0], len(rows) - 0.05, "single", ha="center", va="bottom", fontsize=22)
+    ax.text(box_centers[1], len(rows) - 0.05, "double", ha="center", va="bottom", fontsize=22)
 
     for i, row in enumerate(rows):
         y = len(rows) - 1 - i
-        ax.text(-0.45, y, row["display"], ha="left", va="center", fontsize=20.5)
+        ax.text(-0.78, y, row["display"], ha="left", va="center", fontsize=19.2)
         for j, key in enumerate(["single", "double"]):
             available = int(row[key])
             color = GREEN if available else "#ded8cd"
             edge = GREEN if available else "#c7c0b4"
             ax.add_patch(
                 FancyBboxPatch(
-                    (0.26 + j, y - 0.25),
-                    0.58,
+                    (box_centers[j] - 0.31, y - 0.25),
+                    0.62,
                     0.5,
                     boxstyle="round,pad=0.02,rounding_size=0.06",
                     facecolor=color,
@@ -92,7 +93,7 @@ def protocol_coverage() -> None:
                 )
             )
             ax.text(
-                0.55 + j,
+                box_centers[j],
                 y,
                 "yes" if available else "-",
                 ha="center",
@@ -102,7 +103,7 @@ def protocol_coverage() -> None:
                 weight="bold" if available else "normal",
             )
         ax.text(
-            2.0,
+            2.55,
             y,
             f"p0={float(row['p_guess']):.2g}",
             ha="left",
@@ -148,6 +149,7 @@ def test_inventory() -> None:
     bars = ax.barh(labels, values, color=colors, alpha=0.92)
     ax.set_title("Validation surface spans unit, coverage, and parity tests", fontsize=24, pad=16)
     ax.set_xlabel("test functions")
+    ax.tick_params(axis="y", pad=10)
     ax.grid(axis="x", color="#e8e0d5", linewidth=0.8)
     ax.spines[["top", "right"]].set_visible(False)
     for bar, value in zip(bars, values, strict=True):

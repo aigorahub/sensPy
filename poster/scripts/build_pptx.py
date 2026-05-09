@@ -303,7 +303,7 @@ def build_header(slide):
         margin=0,
     )
     if CONFERENCE_LOGO.exists():
-        add_image_fit(slide, CONFERENCE_LOGO, M, 0.22, 5.55, 1.73)
+        add_image_fit(slide, CONFERENCE_LOGO, 1.05, 0.35, 5.25, 1.64)
 
 
 def build_footer(slide, summary):
@@ -365,7 +365,7 @@ def build_problem(slide):
         slide,
         "The result: validated migration for sensory teams already working in Python.",
         LEFT_X + 0.35,
-        y + 4.82,
+        y + 5.0,
         COL_W - 0.7,
         0.8,
         size=24,
