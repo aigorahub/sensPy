@@ -303,7 +303,7 @@ def build_header(slide):
         margin=0,
     )
     if CONFERENCE_LOGO.exists():
-        add_image_fit(slide, CONFERENCE_LOGO, 21.15, 0.22, 5.55, 1.73)
+        add_image_fit(slide, CONFERENCE_LOGO, M, 0.22, 5.55, 1.73)
 
 
 def build_footer(slide, summary):
