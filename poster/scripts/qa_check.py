@@ -11,6 +11,7 @@ from PIL import Image, ImageStat
 
 ROOT = Path(__file__).resolve().parents[2]
 POSTER = ROOT / "poster"
+ASSETS = POSTER / "assets"
 CHARTS = POSTER / "charts"
 CHART_DATA = POSTER / "chart_data"
 OUT = POSTER / "print_artifacts"
@@ -23,6 +24,10 @@ REQUIRED_CHARTS = [
     "test_inventory.png",
     "roc_bridge.png",
     "architecture_pipeline.png",
+]
+REQUIRED_ASSETS = [
+    "qr-senspy-github.png",
+    "sensometrics-2026-logo.png",
 ]
 
 
@@ -84,6 +89,8 @@ def check_pptx_text() -> None:
 
 def main() -> None:
     check_summary()
+    for asset in REQUIRED_ASSETS:
+        assert_nonblank(ASSETS / asset, min_stddev=2.0)
     for chart in REQUIRED_CHARTS:
         assert_nonblank(CHARTS / chart)
     check_artifacts()

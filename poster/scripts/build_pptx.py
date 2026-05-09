@@ -20,6 +20,7 @@ OUT = POSTER / "print_artifacts"
 OUT.mkdir(parents=True, exist_ok=True)
 
 PPTX = OUT / "senspy-sensometrics-2026-poster.pptx"
+CONFERENCE_LOGO = ASSETS / "sensometrics-2026-logo.png"
 
 SLIDE_W = 27.83
 SLIDE_H = 39.37
@@ -301,7 +302,8 @@ def build_header(slide):
         align=PP_ALIGN.CENTER,
         margin=0,
     )
-    add_text(slide, "Python-native Thurstonian sensory discrimination", 19.8, 0.58, 6.4, 0.55, size=18, color="#526057", align=PP_ALIGN.RIGHT)
+    if CONFERENCE_LOGO.exists():
+        add_image_fit(slide, CONFERENCE_LOGO, 21.15, 0.22, 5.55, 1.73)
 
 
 def build_footer(slide, summary):
