@@ -27,7 +27,8 @@ REQUIRED_CHARTS = [
 ]
 REQUIRED_ASSETS = [
     "qr-senspy-github.png",
-    "sensometrics-2026-logo.png",
+    "sensometrics-2026-valencia-badge.png",
+    "aigora-logo-deep-forest.png",
 ]
 
 

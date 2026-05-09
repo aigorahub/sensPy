@@ -20,7 +20,8 @@ OUT = POSTER / "print_artifacts"
 OUT.mkdir(parents=True, exist_ok=True)
 
 PPTX = OUT / "senspy-sensometrics-2026-poster.pptx"
-CONFERENCE_LOGO = ASSETS / "sensometrics-2026-logo.png"
+CONFERENCE_LOGO = ASSETS / "sensometrics-2026-valencia-badge.png"
+AIGORA_MARK = ASSETS / "aigora-logo-deep-forest.png"
 
 SLIDE_W = 27.83
 SLIDE_H = 39.37
@@ -37,6 +38,7 @@ BODY = "Arial"
 MONO = "Courier New"
 
 CANVAS = "f4f0e6"
+HEADER_BG = "f7f6f2"
 PANEL = "fbfaf6"
 INK = "17291f"
 CORAL = "c7563f"
@@ -260,50 +262,85 @@ def add_takeaway(slide, x, y, w, h, title, body, detail=None, *, color=CORAL):
 
 
 def build_header(slide):
-    add_rect(slide, 0, 0, SLIDE_W, HEADER_H, MIST)
+    add_rect(slide, 0, 0, SLIDE_W, HEADER_H, HEADER_BG)
     add_rect(slide, 0, HEADER_H - 0.07, SLIDE_W, 0.07, CORAL)
     add_text(
         slide,
-        "sensPy",
+        "Introducing sensPy",
         M,
-        0.35,
-        SLIDE_W - 2 * M,
-        1.6,
-        size=94,
+        0.42,
+        19.0,
+        1.0,
+        size=58,
         font=DISPLAY,
         color=DARK,
-        align=PP_ALIGN.CENTER,
         margin=0,
     )
     add_text(
         slide,
-        "Bringing the gold standard of sensR to the Python sensory ecosystem",
+        "Enabling the gold standard analyses of sensR\nfor sensometricians using Python",
         M,
-        2.05,
-        SLIDE_W - 2 * M,
-        0.82,
-        size=37,
-        font=BODY,
+        1.55,
+        19.2,
+        1.26,
+        size=30,
+        font=DISPLAY,
         color=CORAL,
-        align=PP_ALIGN.CENTER,
         margin=0,
     )
     add_text(
         slide,
-        "John M. Ennis and Bartosz Smulski | Aigora | Sensometrics 2026",
-        M,
-        3.25,
-        SLIDE_W - 2 * M,
-        0.5,
-        size=25,
+        "SciPy-native signal detection tools with sensR parity, typed results, and interactive visualizations",
+        M + 0.02,
+        2.92,
+        18.5,
+        0.32,
+        size=16,
+        font=BODY,
+        color="#526057",
+        margin=0,
+    )
+    add_text(
+        slide,
+        "John M. Ennis¹  |  Bartosz Smulski²",
+        M + 0.02,
+        3.28,
+        18.5,
+        0.33,
+        size=17,
         font=BODY,
         color=INK,
         bold=True,
-        align=PP_ALIGN.CENTER,
+        margin=0,
+    )
+    add_text(
+        slide,
+        "¹ Aigora, Richmond, United States   |   ² Aigora, Warsaw, Poland",
+        M + 0.02,
+        3.66,
+        18.5,
+        0.3,
+        size=12.5,
+        font=BODY,
+        color="#405249",
         margin=0,
     )
     if CONFERENCE_LOGO.exists():
-        add_image_fit(slide, CONFERENCE_LOGO, 1.05, 0.35, 5.25, 1.64)
+        add_image_fit(slide, CONFERENCE_LOGO, 20.65, 0.45, 5.95, 1.95)
+    if AIGORA_MARK.exists():
+        add_image_fit(slide, AIGORA_MARK, 21.32, 2.7, 1.22, 1.22)
+    add_text(
+        slide,
+        "aigora",
+        22.77,
+        2.58,
+        3.62,
+        1.34,
+        size=50,
+        font=DISPLAY,
+        color=DARK,
+        margin=0,
+    )
 
 
 def build_footer(slide, summary):
