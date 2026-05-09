@@ -1,9 +1,0 @@
-protocol,display,single,double,p_guess
-duotrio,Duo-trio,1,1,0.5
-triangle,Triangle,1,1,0.3333
-twoafc,2-AFC,1,1,0.5
-threeafc,3-AFC,1,1,0.3333
-tetrad,Tetrad,1,1,0.3333
-hexad,Hexad,1,0,0.1
-twofive,2-out-of-5,1,0,0.1
-twofivef,2-out-of-5F,1,0,0.4

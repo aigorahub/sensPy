@@ -32,6 +32,8 @@ docs/sensometrics-2026-audit.md
 
 # Poster build scratch
 poster/.venv/
+poster/chart_data/
+poster/charts/
 poster/print_artifacts/.libreoffice-font-home/
 poster/print_artifacts/.libreoffice-user/
 poster/print_artifacts/*.pdf

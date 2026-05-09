@@ -2,7 +2,7 @@
 
 This directory builds a B1 portrait poster for the Sensometrics 2026 abstract:
 
-> sensPy: Bringing the gold standard of sensR to the Python sensory ecosystem
+> Introducing sensPy: Enabling the gold standard analyses of sensR for sensometricians using Python
 
 The poster is modeled as a reproducible artifact pipeline: collect repo-backed
 metrics, render chart images, assemble a one-slide PowerPoint, export a print
@@ -21,7 +21,8 @@ bash poster/build.sh
 
 The build creates `poster/.venv`, installs poster-only dependencies, writes
 `chart_data/`, renders `charts/`, assembles the PPTX, exports the PNG through
-LibreOffice and Poppler, and runs `scripts/qa_check.py`.
+LibreOffice and Poppler, and runs `scripts/qa_check.py`. The `chart_data/` and
+`charts/` directories are generated intermediates and are intentionally ignored.
 
 Required command-line tools:
 
